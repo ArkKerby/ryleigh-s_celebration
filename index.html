@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3e7e5">
+  <meta name="description" content="Join Princess Ryleigh for her Christening and First Birthday Celebration on November 21, 2026.">
+  <title>Princess Ryleigh · A Christening &amp; First Birthday Celebration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add('has-birthday-intro');</script>
+</head>
+<body>
+  <div class="ambient-background" aria-hidden="true">
+    <div class="ambient-background__layer is-visible"></div>
+    <div class="ambient-background__layer"></div>
+    <div class="party-atmosphere">
+      <span class="party-balloon party-balloon--rose"></span>
+      <span class="party-balloon party-balloon--blue"></span>
+      <span class="party-balloon party-balloon--lavender"></span>
+      <span class="party-balloon party-balloon--gold"></span>
+      <span class="party-balloon party-balloon--pink"></span>
+      <span class="party-balloon party-balloon--peach"></span>
+      <span class="party-balloon party-balloon--mint"></span>
+      <span class="party-balloon party-balloon--coral"></span>
+      <span class="party-balloon party-balloon--sky"></span>
+      <span class="party-balloon party-balloon--lilac"></span>
+      <span class="candlelight candlelight--left"></span>
+      <span class="candlelight candlelight--right"></span>
+    </div>
+  </div>
+  <section class="birthday-intro" id="birthday-intro" role="dialog" aria-modal="true" aria-labelledby="birthday-intro-title" aria-describedby="birthday-intro-help" aria-hidden="false">
+    <div class="birthday-intro__content">
+      <p class="birthday-intro__eyebrow">A little wish before the magic</p>
+      <h1 id="birthday-intro-title">Make a wish for Ryleigh</h1>
+      <p class="birthday-intro__help" id="birthday-intro-help">Tap the candle to open her birthday and Christening invitation.</p>
+      <button class="birthday-cake" id="blow-candle" type="button" aria-label="Blow out the candle and open the invitation">
+        <span class="cake-candle" aria-hidden="true">
+          <span class="cake-wick"></span>
+          <span class="cake-flame"></span>
+          <span class="cake-smoke"><i></i><i></i><i></i></span>
+        </span>
+        <span class="cake-tier cake-tier--top" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="cake-tier cake-tier--bottom" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="cake-plate" aria-hidden="true"></span>
+      </button>
+      <p class="birthday-intro__prompt" id="birthday-intro-prompt">Blow out the candle to begin</p>
+      <a class="birthday-intro__skip" id="skip-birthday-intro" href="#main">Skip to the invitation</a>
+    </div>
+  </section>
+  <script>
+    (() => {
+      const intro = document.getElementById('birthday-intro');
+      const cake = document.getElementById('blow-candle');
+      const skip = document.getElementById('skip-birthday-intro');
+      const prompt = document.getElementById('birthday-intro-prompt');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let closing = false;
+      let dismissed = false;
+
+      const finishIntro = () => {
+        if (dismissed) return;
+        dismissed = true;
+        intro.classList.add('is-leaving');
+        window.setTimeout(() => {
+          intro.setAttribute('aria-hidden', 'true');
+          intro.inert = true;
+          document.documentElement.classList.remove('intro-open');
+          document.querySelector('.brand')?.focus({ preventScroll: true });
+        }, reducedMotion ? 0 : 760);
+      };
+
+      document.documentElement.classList.add('intro-open');
+      cake.focus({ preventScroll: true });
+      cake.addEventListener('click', () => {
+        if (closing) return;
+        closing = true;
+        prompt.textContent = 'A little wish... here comes the magic!';
+        intro.classList.add('is-blowing');
+        window.setTimeout(finishIntro, reducedMotion ? 0 : 1450);
+      });
+      skip.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (closing) return;
+        closing = true;
+        intro.classList.add('is-skipped');
+        finishIntro();
+      });
+      intro.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          skip.click();
+          return;
+        }
+        if (event.key !== 'Tab') return;
+        const focusable = [...intro.querySelectorAll('button:not([disabled]), a[href]')];
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      });
+    })();
+  </script>
+  <a class="skip-link" href="#main">Skip to invitation</a>
+  <header class="site-header">
+    <div class="container nav-row">
+      <a class="brand" href="#top" aria-label="Ryleigh's invitation home"><span class="brand-mark" aria-hidden="true">✧</span> Princess Ryleigh</a>
+      <nav class="nav-links" aria-label="Invitation sections">
+        <a href="#celebration">The day</a>
+        <a href="#details">Details</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#rsvp">RSVP</a>
+      </nav>
+      <button class="music-button" id="music-toggle" type="button" aria-expanded="false" aria-controls="music-panel" aria-label="Open invitation music player">
+        <span aria-hidden="true">♫</span><span id="music-label">Play music</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="music-panel" id="music-panel" aria-hidden="true" inert>
+    <button class="music-action" id="music-action" type="button" aria-pressed="false" aria-label="Play the invitation music"><span id="music-action-label">Play music</span></button>
+    <span class="music-divider" aria-hidden="true"></span>
+    <label for="music-volume">Volume</label>
+    <input class="music-volume" id="music-volume" type="range" min="0" max="1" step="0.01" value="0.7">
+  </div>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">✧ &nbsp; A Magical Invitation &nbsp; ✧</p>
+          <svg class="hero-kicker" viewBox="0 0 1200 300" role="img" aria-labelledby="hero-kicker-title">
+            <title id="hero-kicker-title">Once upon a time…</title>
+            <defs>
+              <path id="hero-kicker-arc" d="M 40 250 Q 600 50 1160 250"></path>
+            </defs>
+            <text><textPath href="#hero-kicker-arc" startOffset="50%" text-anchor="middle" textLength="1080" lengthAdjust="spacingAndGlyphs">Once upon a time…</textPath></text>
+          </svg>
+          <p class="hero-story">In a kingdom not so far away…</p>
+          <h1 id="hero-title">Princess Ryleigh</h1>
+          <p class="hero-subtitle">A Christening &amp; First Birthday Celebration</p>
+          <figure class="hero-photo-wrap">
+            <div class="hero-photo-frame">
+              <img class="hero-photo" src="ryleigh-invitation-assets/birthday-portrait.jpg" alt="Ryleigh smiling in her white christening dress" fetchpriority="high">
+            </div>
+          </figure>
+          <p class="date-chip"><span aria-hidden="true">✧</span> November 21, 2026</p>
+          <div class="hero-actions">
+            <a class="button" href="#celebration">Open the Royal Invitation <span aria-hidden="true">✨</span></a>
+          </div>
+          <a class="scroll-cue" href="#celebration">Scroll down to discover the fairytale <span aria-hidden="true">⌄</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="celebration" aria-labelledby="celebration-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="stars" aria-hidden="true">✧ ✧ ✧</p>
+          <h2 id="celebration-title">Let the Celebrations Begin!</h2>
+          <p>One beautiful day. Two unforgettable celebrations. A lifetime of blessings.</p>
+        </div>
+        <div class="milestones">
+          <article class="milestone-card">
+            <div class="milestone-content">
+              <p class="milestone-icon" aria-hidden="true">🕊️</p>
+              <h3>A Child of God</h3>
+              <p>Join me as I celebrate my Christening and begin my beautiful journey of faith, love, and God’s blessings!</p>
+            </div>
+          </article>
+          <article class="milestone-card">
+            <div class="milestone-content">
+              <p class="milestone-icon" aria-hidden="true">🎂</p>
+              <h3>Ryleigh’s Magical Chapter One</h3>
+              <p>I’m turning ONE! Join me as I celebrate my magical first year filled with love, laughter, and countless blessings!</p>
+            </div>
+            <img class="milestone-image" src="assets_images/Ryleighs_Photo/Ryleigh11.11.25-1.jpg" alt="Ryleigh seated outdoors in her birthday dress with flowers and plush toys" width="6000" height="4000" loading="lazy" decoding="async">
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="details" aria-labelledby="details-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Two Royal Occasions</p>
+          <h2 id="details-title">The Celebration Details</h2>
+          <p>We’d be delighted to celebrate this joyful day together.</p>
+        </div>
+        <div class="event-grid">
+          <article class="event-card" id="christening">
+            <img class="event-photo" src="assets_images/Ryleighs_Photo/Ryleigh11.11.25-12.jpg" alt="Ryleigh holding flowers in her white Christening dress" loading="lazy">
+            <div class="event-card-body">
+              <p class="event-kicker">The First Royal Occasion</p>
+              <p class="event-icon-row" aria-hidden="true">🕊️ ✝️ 🕊️</p>
+              <h3>A Child of God:<br>Ryleigh’s Christening</h3>
+              <p class="event-date">Saturday · November 21, 2026</p>
+              <p class="event-time">10:30 in the morning</p>
+              <div class="venue-box">
+                <strong>Parish of the Immaculate Heart of Mary</strong>
+                <address>Daang Bakal Road, Antipolo, Philippines, 1870</address>
+                <a class="button" href="https://maps.google.com/?q=Parish%20of%20the%20Immaculate%20Heart%20of%20Mary%2C%20Daang%20Bakal%20Road%2C%20Antipolo%2C%20Philippines%2C%201870" target="_blank" rel="noreferrer">Find the Church <span aria-hidden="true">↗</span></a>
+              </div>
+              <p class="event-note">“Let the little children come to Me…”</p>
+              <p class="event-date">Matthew 19:14</p>
+            </div>
+          </article>
+          <article class="event-card" id="birthday">
+            <img class="event-photo" src="assets_images/Ryleighs_Photo/Ryleigh11.11.25-16.jpg" alt="Ryleigh in a pink princess birthday dress" loading="lazy">
+            <div class="event-card-body">
+              <p class="event-kicker">The Second Royal Occasion</p>
+              <p class="event-icon-row" aria-hidden="true">🎂 🎀 🏰</p>
+              <h3>Ryleigh’s Magical Chapter One</h3>
+              <p class="event-date">Saturday · November 21, 2026</p>
+              <p class="event-time">4:00 in the afternoon</p>
+              <div class="venue-box">
+                <strong>CPoint Villa</strong>
+                <address>678, 1800 Bagong Silang, Marikina, 1800</address>
+                <a class="button" href="https://maps.google.com/?q=CPoint%20Villa%2C%20678%2C%201800%20Bagong%20Silang%2C%20Marikina%2C%201800" target="_blank" rel="noreferrer">Find the Venue <span aria-hidden="true">↗</span></a>
+              </div>
+              <p class="event-note">One year of giggles, cuddles, and happily ever after!</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tint" id="gallery" aria-labelledby="gallery-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">A Little Princess Gallery</p>
+          <h2 id="gallery-title">Growing Up in a Fairytale</h2>
+        </div>
+        <div class="gallery-grid">
+          <button class="gallery-item gallery-item--landscape" type="button" aria-pressed="false">
+            <span class="gallery-tape" aria-hidden="true"></span>
+            <img src="ryleigh-invitation-assets/gallery-ryleigh-01.jpg" alt="Ryleigh sitting between her teddy bears at her birthday setup" loading="lazy" decoding="async">
+            <span class="gallery-caption">Once upon a birthday…</span>
+          </button>
+          <button class="gallery-item gallery-item--landscape" type="button" aria-pressed="false">
+            <span class="gallery-tape" aria-hidden="true"></span>
+            <img src="ryleigh-invitation-assets/gallery-ryleigh-02.jpg" alt="Ryleigh smiling in her white birthday dress among her toys and flowers" loading="lazy" decoding="async">
+            <span class="gallery-caption">Her royal tea party</span>
+          </button>
+          <button class="gallery-item gallery-item--landscape" type="button" aria-pressed="false">
+            <span class="gallery-tape" aria-hidden="true"></span>
+            <img src="ryleigh-invitation-assets/gallery-ryleigh-05.jpg" alt="Ryleigh posing with a rose at her birthday photoshoot" loading="lazy" decoding="async">
+            <span class="gallery-caption">Hello, little kingdom</span>
+          </button>
+          <button class="gallery-item gallery-item--classic" type="button" aria-pressed="false">
+            <span class="gallery-tape" aria-hidden="true"></span>
+            <img src="ryleigh-invitation-assets/gallery-ryleigh-06.jpg" alt="Ryleigh in her pink princess dress with balloons and teddy bears" loading="lazy" decoding="async">
+            <span class="gallery-caption">A royal birthday wish</span>
+          </button>
+          <button class="gallery-item gallery-item--portrait" type="button" aria-pressed="false">
+            <span class="gallery-tape" aria-hidden="true"></span>
+            <img src="ryleigh-invitation-assets/gallery-ryleigh-03.jpg" alt="Ryleigh in her white dress holding a pink rose" loading="lazy" decoding="async">
+            <span class="gallery-caption">A rose for the little princess</span>
+          </button>
+          <button class="gallery-item gallery-item--portrait" type="button" aria-pressed="false">
+            <span class="gallery-tape" aria-hidden="true"></span>
+            <img src="ryleigh-invitation-assets/gallery-ryleigh-04.jpg" alt="A close portrait of Ryleigh in her birthday dress" loading="lazy" decoding="async">
+            <span class="gallery-caption">Dreaming in white lace</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section godparents-section" id="godparents" aria-labelledby="godparents-title">
+      <div class="container">
+        <div class="godparents-card">
+          <div class="godparent-intro">
+            <p class="eyebrow">With grateful hearts</p>
+            <h2 id="godparents-title">A Special Part of My Journey</h2>
+            <h3>Godparents of Princess Ryleigh</h3>
+            <p>A child is a precious gift from above, and every child needs loving hearts to guide them along the way. I am grateful to have you as part of my spiritual journey.</p>
+          </div>
+          <div class="godparent-lists">
+            <div class="godparent-list">
+              <h4>♡ My Ninangs ♡</h4>
+              <ol>
+                <li>Ma. Theresa F. Leyva</li>
+                <li>Myrell D. Fuentes</li>
+                <li>Nina Reevina B. Zamora</li>
+                <li>Jacqueline P. Ciriaco</li>
+                <li>Ma. Angeline G. Jabagat</li>
+                <li>Leorey A. Merlan</li>
+                <li>Erica Diane Z. Deluna</li>
+                <li>Rosemarie D. Villanueva</li>
+              </ol>
+            </div>
+            <div class="godparent-list">
+              <h4>♡ My Ninongs ♡</h4>
+              <ol>
+                <li>Michael D. Fuentes</li>
+                <li>Kylea Arjuna F. Leyva</li>
+                <li>Calvin M. Duran</li>
+                <li>Albert Fortuna</li>
+                <li>Juniel Iway</li>
+                <li>Alfer Nuevo</li>
+                <li>John Mark T. Laguador</li>
+                <li>Prince Edward D. Velasco</li>
+              </ol>
+            </div>
+          </div>
+          <p class="godparent-thanks">Thank you for accepting the special role of being my Ninong and Ninang.</p>
+          <p class="godparent-signoff">Love, Princess Ryleigh</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section royal-section" id="dress-code" aria-labelledby="royal-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Her Enchanted Kingdom</p>
+          <h2 id="royal-title">A Royal Gathering</h2>
+          <p>A magical kingdom inspired by all your favorite princesses!</p>
+        </div>
+        <div class="royal-card">
+          <div class="princess-chips" aria-label="Princess-inspired dress-up ideas">
+            <span>Cinderella</span><span>Belle</span><span>Ariel</span><span>Aurora</span><span>Snow White</span><span>Jasmine</span><span>Tiana</span><span>Rapunzel</span><span>Pocahontas</span><span>Mulan</span><span>Merida</span>
+          </div>
+          <ul class="royal-gallery" aria-label="Ryleigh dressed as the princesses">
+            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-02.jpg" alt="Ryleigh dressed as Cinderella" loading="lazy" decoding="async"><figcaption>Cinderella</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-07.jpg" alt="Ryleigh dressed as Belle" loading="lazy" decoding="async"><figcaption>Belle</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-05.jpg" alt="Ryleigh dressed as Ariel" loading="lazy" decoding="async"><figcaption>Ariel</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-03.jpg" alt="Ryleigh dressed as Aurora" loading="lazy" decoding="async"><figcaption>Aurora</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-01.jpg" alt="Ryleigh dressed as Snow White" loading="lazy" decoding="async"><figcaption>Snow White</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-04.jpg" alt="Ryleigh dressed as Jasmine" loading="lazy" decoding="async"><figcaption>Jasmine</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-10.jpg" alt="Ryleigh dressed as Tiana" loading="lazy" decoding="async"><figcaption>Tiana</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-09.jpg" alt="Ryleigh dressed as Rapunzel" loading="lazy" decoding="async"><figcaption>Rapunzel</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-06.jpg" alt="Ryleigh dressed as Pocahontas" loading="lazy" decoding="async"><figcaption>Pocahontas</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-08.jpg" alt="Ryleigh dressed as Mulan" loading="lazy" decoding="async"><figcaption>Mulan</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-11.jpg" alt="Ryleigh dressed as Merida" loading="lazy" decoding="async"><figcaption>Merida</figcaption></figure></li>
+          </ul>
+          <div class="dress-code-copy">
+            <p>To make the celebration even more magical, I kindly invite our lovely guests to dress in any shade of pastel pink, purple, cream, blue, yellow, or green.</p>
+            <p>You may also wear an outfit featuring your favorite Disney Princesses!</p>
+            <p class="dress-code-callout">Let’s fill the day with beautiful pastel colors, princess-inspired looks, and a little extra magic as we celebrate this special occasion!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="gifts" aria-labelledby="gift-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">A little note for our guests</p>
+          <h2 id="gift-title">A Thoughtful Gesture</h2>
+        </div>
+        <div class="gift-copy">
+          <p>Your presence and prayers are more than enough to make my celebration extra special. However, should you wish to bless me with a gift, I would be truly grateful for any of the following:</p>
+          <div class="gift-grid" aria-label="Gift ideas">
+            <div class="gift-item"><span aria-hidden="true">💌</span><strong>Monetary Gift</strong></div>
+            <div class="gift-item"><span aria-hidden="true">🧸</span><strong>Educational Toys</strong></div>
+            <div class="gift-item"><span aria-hidden="true">👗</span><strong>A Lovely Dress</strong></div>
+          </div>
+          <p>Your thoughtfulness and generosity are deeply appreciated, but please know that your presence is already the greatest gift of all. <span aria-hidden="true">💗</span></p>
+          <p class="verse">“Every good and perfect gift is from above, coming down from the Father of the heavenly lights…”<cite>James 1:17 (NIV)</cite></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="health" aria-labelledby="health-title">
+      <div class="container">
+        <div class="health-card">
+          <div class="health-intro">
+            <p class="eyebrow">A gentle reminder for my beloved guests</p>
+            <h2 id="health-title">A Healthy &amp; Happy Celebration</h2>
+            <p>As I celebrate these special milestones, I kindly ask each of you to help me keep myself and my loved ones safe and healthy. Your care and cooperation mean so much in making this celebration happy and memorable for everyone!</p>
+          </div>
+          <p class="event-kicker" style="text-align:center">Our gentle reminders:</p>
+          <ul class="reminders">
+            <li><span class="reminder-icon" aria-hidden="true">🏡</span><span>Please stay home if you are feeling unwell or experiencing flu-like symptoms.</span></li>
+            <li><span class="reminder-icon" aria-hidden="true">🧴</span><span>Sanitize or wash your hands upon arrival.</span></li>
+            <li><span class="reminder-icon" aria-hidden="true">🤍</span><span>Avoid kissing me, especially on my face and hands.</span></li>
+          </ul>
+          <p class="health-thanks">Thank you for helping me make this celebration safe, joyful, and memorable!</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tint" id="rsvp" aria-labelledby="rsvp-title">
+      <div class="container rsvp-layout">
+        <div class="rsvp-copy">
+          <p class="eyebrow">The Birthday Celebration</p>
+          <p class="rsvp-stars" aria-hidden="true">✧ ✧ ✧</p>
+          <h2 id="rsvp-title">Will You Join My Royal Celebration?</h2>
+          <p>Your presence will make my special day even more magical!</p>
+          <a class="button button-outline" href="#details">View celebration details</a>
+        </div>
+        <form class="rsvp-form" id="rsvp-form">
+          <div class="form-field">
+            <label for="guest-name">Your Name</label>
+            <input id="guest-name" name="name" autocomplete="name" placeholder="Enter your name" required>
+          </div>
+          <div class="form-field">
+            <label for="guest-email">Your Email Address</label>
+            <input id="guest-email" name="email" type="email" autocomplete="email" placeholder="name@example.com" required>
+          </div>
+          <div class="form-field">
+            <label for="attendance">Will you attend my birthday?</label>
+            <select id="attendance" name="attendance" required>
+              <option value="" selected disabled>Please choose one</option>
+              <option>Yes, I’ll be there!</option>
+              <option>Sorry, I can’t make it</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="message">A blessing or message for me <span>(Required)</span></label>
+            <textarea id="message" name="message" placeholder="Write a little wish for our princess…" required></textarea>
+          </div>
+          <button class="button" type="submit">Confirm my RSVP</button>
+          <p class="form-note">This invitation preview does not send or store RSVP responses. Please connect a response service before sharing the form.</p>
+          <p class="form-status" id="form-status" aria-live="polite"></p>
+          <p class="rsvp-thankyou">Thank You for Being Part of My Fairytale!</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="ending" id="ending" aria-labelledby="ending-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="stars" aria-hidden="true">✧ ♛ ✧</p>
+          <h2 id="ending-title">Ryleigh’s Happily Ever ONE…</h2>
+        </div>
+        <div class="ending-card">
+          <div class="ending-copy">
+            <h3>A Little Note from Me 💗</h3>
+            <p>Thank you for being part of my very special day! I may still be little, but my heart is already surrounded by so much love.</p>
+            <p>I feel so blessed to have wonderful people like you celebrating my Christening and my very first birthday with me. Thank you for your love, prayers, and warm wishes.</p>
+            <p>Your presence will make my day even more magical, and I hope we create beautiful memories together that I can look back on when I’m older.</p>
+            <p>May God bless you as much as He has blessed me with you!</p>
+            <p>With tiny hugs, sweet smiles, and lots of love,<br>Your little princess,<br><strong>Ryleigh</strong></p>
+            <p class="closing-verse">“Children are a heritage from the LORD, offspring a reward from him.”<br>Psalm 127:3 (NIV)</p>
+            <div class="hashtags"><span>#OnceUponONEwithRyleigh</span><span>#OhSoONEderfulRyleigh</span><span>#ONEderfullyMadePrincessRyleigh</span></div>
+          </div>
+          <img class="ending-photo" src="ryleigh-invitation-assets/birthday-finale.jpg" alt="Ryleigh celebrating her first birthday among pink balloons and storybook friends" loading="lazy">
+        </div>
+        <footer class="site-footer"><span aria-hidden="true">✧</span> With love, The Merlan Family <span aria-hidden="true">✧</span></footer>
+      </div>
+    </section>
+  </main>
+
+  <audio id="invitation-audio" preload="none" src="assets_images/Ryleighs_Photo/AA%20Disney%20-%20When%20You%20Wish%20Upon%20a%20Star%20-%20Cover%20Sara%20Bareilles.mp3"></audio>
+  <script>
+    const music = document.getElementById('invitation-audio');
+    const musicToggle = document.getElementById('music-toggle');
+    const musicLabel = document.getElementById('music-label');
+    const musicPanel = document.getElementById('music-panel');
+    const musicAction = document.getElementById('music-action');
+    const musicActionLabel = document.getElementById('music-action-label');
+    const musicVolume = document.getElementById('music-volume');
+    const setMusicExpanded = (expanded) => {
+      musicPanel.classList.toggle('is-expanded', expanded);
+      musicPanel.setAttribute('aria-hidden', String(!expanded));
+      musicPanel.inert = !expanded;
+      musicToggle.setAttribute('aria-expanded', String(expanded));
+      musicToggle.setAttribute('aria-label', expanded ? 'Close invitation music controls' : 'Open invitation music player');
+    };
+    const updateMusicState = (playing) => {
+      const label = playing ? 'Pause music' : 'Play music';
+      musicToggle.classList.toggle('is-playing', playing);
+      musicAction.setAttribute('aria-pressed', String(playing));
+      musicAction.setAttribute('aria-label', `${label} on the invitation`);
+      musicActionLabel.textContent = label;
+      musicLabel.textContent = label;
+    };
+    const startMusic = async () => {
+      try {
+        await music.play();
+        updateMusicState(true);
+      } catch {
+        musicLabel.textContent = 'Music unavailable';
+        musicActionLabel.textContent = 'Music unavailable';
+      }
+    };
+    music.volume = Number(musicVolume.value);
+    musicVolume.addEventListener('input', () => {
+      music.volume = Number(musicVolume.value);
+    });
+    musicToggle.addEventListener('click', async () => {
+      const expanded = musicPanel.classList.contains('is-expanded');
+      setMusicExpanded(!expanded);
+      if (!expanded && music.paused) await startMusic();
+    });
+    const togglePlayback = async () => {
+      if (music.paused) {
+        await startMusic();
+      } else {
+        music.pause();
+        updateMusicState(false);
+      }
+    };
+    musicAction.addEventListener('click', togglePlayback);
+    document.addEventListener('pointerdown', (event) => {
+      if (!musicPanel.classList.contains('is-expanded')) return;
+      if (event.target instanceof Element && (musicPanel.contains(event.target) || musicToggle.contains(event.target))) return;
+      setMusicExpanded(false);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || !musicPanel.classList.contains('is-expanded')) return;
+      setMusicExpanded(false);
+      musicToggle.focus();
+    });
+    const touchPictureMedia = window.matchMedia('(hover: none), (pointer: coarse)');
+    document.getElementById('main').addEventListener('click', (event) => {
+      if (!touchPictureMedia.matches || !(event.target instanceof Element)) return;
+      const picture = event.target.closest('img');
+      if (!picture) return;
+      picture.classList.remove('is-tapped');
+      void picture.offsetWidth;
+      picture.classList.add('is-tapped');
+      window.setTimeout(() => picture.classList.remove('is-tapped'), 700);
+    });
+
+    document.getElementById('rsvp-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      document.getElementById('form-status').textContent = 'Thank you for your lovely message. This preview has not sent your RSVP.';
+    });
+
+    const galleryCards = [...document.querySelectorAll('.gallery-item')];
+    galleryCards.forEach((card) => {
+      card.addEventListener('click', () => {
+        const activateCard = !card.classList.contains('is-active');
+        galleryCards.forEach((item) => {
+          const isActive = item === card && activateCard;
+          item.classList.toggle('is-active', isActive);
+          item.setAttribute('aria-pressed', String(isActive));
+        });
+      });
+    });
+
+    const invitationSections = [...document.querySelectorAll('#main > section')];
+    const backgroundLayers = [...document.querySelectorAll('.ambient-background__layer')];
+    if ('IntersectionObserver' in window && invitationSections.length && backgroundLayers.length === 2) {
+      const getBackground = (section) => {
+        const styles = getComputedStyle(section);
+        const image = styles.getPropertyValue('--scene-image').trim();
+        const position = styles.getPropertyValue('--scene-position').trim() || 'center';
+        const opacity = styles.getPropertyValue('--scene-opacity').trim() || '.38';
+        return { image, position, opacity, key: `${image}|${position}|${opacity}` };
+      };
+
+      let visibleBackgroundIndex = 0;
+      const initialBackground = getBackground(invitationSections[0]);
+      let visibleBackgroundKey = initialBackground.key;
+      backgroundLayers[0].style.backgroundImage = initialBackground.image;
+      backgroundLayers[0].style.backgroundPosition = initialBackground.position;
+      backgroundLayers[0].style.setProperty('--ambient-opacity', initialBackground.opacity);
+      backgroundLayers[0].classList.add('is-visible');
+
+      function showBackground(section) {
+        const nextBackground = getBackground(section);
+        if (!nextBackground.image || nextBackground.key === visibleBackgroundKey) return;
+
+        const nextIndex = 1 - visibleBackgroundIndex;
+        const nextLayer = backgroundLayers[nextIndex];
+        const currentLayer = backgroundLayers[visibleBackgroundIndex];
+        nextLayer.style.backgroundImage = nextBackground.image;
+        nextLayer.style.backgroundPosition = nextBackground.position;
+        nextLayer.style.setProperty('--ambient-opacity', nextBackground.opacity);
+        nextLayer.classList.add('is-visible');
+        currentLayer.classList.remove('is-visible');
+        visibleBackgroundIndex = nextIndex;
+        visibleBackgroundKey = nextBackground.key;
+      }
+
+      function updateBackground() {
+        const viewportCenter = window.innerHeight / 2;
+        const centeredSection = invitationSections.find((section) => {
+          const bounds = section.getBoundingClientRect();
+          return bounds.top <= viewportCenter && bounds.bottom >= viewportCenter;
+        });
+        const mostVisibleSection = centeredSection || invitationSections
+          .map((section) => {
+            const bounds = section.getBoundingClientRect();
+            const visibleHeight = Math.max(0, Math.min(bounds.bottom, window.innerHeight) - Math.max(bounds.top, 0));
+            return { section, visibleHeight };
+          })
+          .sort((first, second) => second.visibleHeight - first.visibleHeight)[0]?.section;
+        if (mostVisibleSection) showBackground(mostVisibleSection);
+      }
+
+      const backgroundObserver = new IntersectionObserver(updateBackground, { rootMargin: '-12% 0px -12% 0px', threshold: 0 });
+      invitationSections.forEach((section) => backgroundObserver.observe(section));
+      updateBackground();
+      let scheduledBackgroundFrame = 0;
+      const scheduleBackgroundUpdate = () => {
+        if (scheduledBackgroundFrame) return;
+        scheduledBackgroundFrame = requestAnimationFrame(() => {
+          scheduledBackgroundFrame = 0;
+          updateBackground();
+        });
+      };
+      window.addEventListener('scroll', scheduleBackgroundUpdate, { passive: true });
+      window.addEventListener('resize', scheduleBackgroundUpdate, { passive: true });
+    }
+  </script>
+  <script>
+    (() => {
+      if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const revealSelectors = [
+        '.hero-copy > *',
+        '.section-heading',
+        '.milestones > *',
+        '.event-grid > *',
+        '.gallery-grid > *',
+        '.godparent-intro',
+        '.godparent-lists > *',
+        '.godparent-thanks',
+        '.godparent-signoff',
+        '.princess-chips',
+        '.royal-gallery > *',
+        '.dress-code-copy',
+        '.gift-copy > p',
+        '.gift-grid > *',
+        '.health-intro',
+        '.health-card > .event-kicker',
+        '.reminders',
+        '.health-thanks',
+        '.rsvp-layout > *',
+        '.ending-copy > *',
+        '.ending-photo',
+        '.site-footer'
+      ];
+      const staggerGroups = [
+        '.hero-copy',
+        '.milestones',
+        '.event-grid',
+        '.gallery-grid',
+        '.godparent-lists',
+        '.royal-gallery',
+        '.gift-grid',
+        '.health-card',
+        '.rsvp-layout',
+        '.ending-copy'
+      ];
+      const targets = new Set();
+      revealSelectors.forEach((selector) => {
+        document.querySelectorAll(selector).forEach((element) => targets.add(element));
+      });
+      if (!targets.size) return;
+
+      staggerGroups.forEach((selector) => {
+        document.querySelectorAll(selector).forEach((group) => {
+          Array.from(group.children).forEach((element, index) => {
+            if (targets.has(element)) element.style.setProperty('--reveal-delay', `${index * 100}ms`);
+          });
+        });
+      });
+
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.15 });
+
+      targets.forEach((element) => {
+        element.setAttribute('data-reveal', '');
+        revealObserver.observe(element);
+      });
+      document.documentElement.classList.add('reveal-enabled');
+    })();
+  </script>
+</body>
+</html>

@@ -551,7 +551,7 @@
     let rsvpTimeout = 0;
 
     window.addEventListener('message', (event) => {
-      if (event.source !== rsvpFrame.contentWindow) return;
+      if (!/^https:\/\/(?:script\.google\.com|(?:[a-z0-9-]+\.)*googleusercontent\.com)$/i.test(event.origin)) return;
       const result = event.data;
       if (!result || result.type !== 'ryleigh-rsvp-result' || result.token !== pendingRsvpToken) return;
 

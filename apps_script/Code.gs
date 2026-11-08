@@ -289,7 +289,7 @@ function frameReply_(token, ok, emailSent, message) {
   const safeToken = /^[a-zA-Z0-9_-]{8,100}$/.test(token) ? token : "";
   const payload = JSON.stringify({ type: "ryleigh-rsvp-result", token: safeToken, ok: ok, emailSent: emailSent, message: message })
     .replace(/</g, "\\u003c");
-  const html = "<!doctype html><html><body><script>window.parent.postMessage(" + payload + ", '*');<\/script></body></html>";
+  const html = "<!doctype html><html><body><script>(function(){window.top.postMessage(" + payload + ", '*');})();<\/script></body></html>";
   return HtmlService.createHtmlOutput(html).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 

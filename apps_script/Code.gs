@@ -219,27 +219,57 @@ function sendConfirmation_(guest, classification) {
     if (cache.get(recipientKey)) return false;
     if (MailApp.getRemainingDailyQuota() < 1) return false;
 
-    const subject = "We received your RSVP for Princess Ryleigh";
-    const emailRole = classification.finalRole === "Review" ? "Other guest" : classification.finalRole;
-    const body = [
+    const subject = "Your RSVP is received | Princess Ryleigh";
+    const emailRole = classification.finalRole === "Review" ? "Other guest (name needs review)" : classification.finalRole;
+    const matchedNameLine = classification.matchedName ? "Matched godparent: " + classification.matchedName : "";
+    const roleLine = emailRole + (classification.matchedName ? " (" + classification.matchedName + ")" : "");
+    const bodyLines = [
       "Hi " + guest.name + ",",
       "",
       "We received your RSVP for Princess Ryleigh’s Christening and First Birthday Celebration.",
       "",
       "Attendance: " + guest.attendance,
-      "Guest type: " + emailRole + (classification.matchedName ? " (" + classification.matchedName + ")" : ""),
+      "Guest type: " + roleLine,
+      matchedNameLine || null,
       "",
-      "Your message: " + guest.message,
+      "Your message:",
+      guest.message,
       "",
       "Thank you for being part of Ryleigh’s special day!",
       "With love,",
       "The Merlan Family"
-    ].join("\n");
+    ];
+    const body = bodyLines.filter(function (line) { return line !== null; }).join("\n");
+    const htmlBody = [
+      '<div style="margin:0;padding:30px 12px;background-color:#f8efec;font-family:Georgia,\'Times New Roman\',serif;color:#593743;">',
+      '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:620px;margin:0 auto;border:1px solid #ead8d1;border-radius:18px;overflow:hidden;background-color:#fffaf4;">',
+      '<tr><td style="padding:28px 24px;text-align:center;background-color:#a64f67;color:#fffaf4;">',
+      '<p style="margin:0 0 10px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#f8dfc4;">&#10022; A royal thank you &#10022;</p>',
+      '<h1 style="margin:0;font-size:30px;line-height:1.2;font-weight:normal;">Your RSVP is received</h1>',
+      '<p style="margin:10px 0 0;font-size:16px;line-height:1.5;color:#fff0e8;">Princess Ryleigh\'s Christening &amp; First Birthday</p>',
+      '</td></tr>',
+      '<tr><td style="padding:30px 28px 24px;">',
+      '<p style="margin:0 0 16px;font-size:19px;">Dear ' + escapeHtml_(guest.name) + ',</p>',
+      '<p style="margin:0 0 22px;font-size:15px;line-height:1.7;color:#725f58;">Thank you for letting us know. We have recorded your RSVP and are so happy to celebrate this special day with you.</p>',
+      '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border-spacing:0;background-color:#f8efec;border:1px solid #efdfd9;border-radius:12px;">',
+      '<tr><td style="padding:14px 16px;border-bottom:1px solid #ead8d1;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#987b70;">Attendance</td><td align="right" style="padding:14px 16px;border-bottom:1px solid #ead8d1;font-size:15px;color:#593743;">' + escapeHtml_(guest.attendance) + '</td></tr>',
+      '<tr><td style="padding:14px 16px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#987b70;">Guest type</td><td align="right" style="padding:14px 16px;font-size:15px;color:#593743;">' + escapeHtml_(emailRole) + '</td></tr>',
+      '</table>',
+      (classification.matchedName ? '<p style="margin:12px 2px 0;font-size:13px;color:#806b61;">Godparent match: <strong style="color:#593743;">' + escapeHtml_(classification.matchedName) + '</strong></p>' : ''),
+      '<p style="margin:24px 0 8px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#987b70;">Your blessing</p>',
+      '<div style="padding:15px 17px;border-left:3px solid #c9a56d;border-radius:0 10px 10px 0;background-color:#fff4ee;font-size:15px;line-height:1.7;color:#654753;white-space:pre-wrap;word-break:break-word;">' + escapeHtml_(guest.message) + '</div>',
+      '<p style="margin:25px 0 0;font-size:15px;line-height:1.7;color:#725f58;">Thank you for being part of Ryleigh\'s fairytale. We look forward to celebrating with you!</p>',
+      '<p style="margin:18px 0 0;font-size:15px;line-height:1.7;color:#725f58;">With love,<br><strong style="color:#a64f67;">The Merlan Family</strong></p>',
+      '</td></tr>',
+      '<tr><td style="padding:15px 22px;text-align:center;border-top:1px solid #ead8d1;background-color:#fff5ef;font-family:Arial,sans-serif;font-size:11px;line-height:1.6;color:#9a8278;">A little celebration filled with love, blessings, and storybook magic.</td></tr>',
+      '</table></div>'
+    ].join("");
 
     MailApp.sendEmail({
       to: guest.email,
       subject: subject,
       body: body,
+      htmlBody: htmlBody,
       name: "Princess Ryleigh’s Invitation"
     });
     properties.setProperty(sentTodayKey, String(sentToday + 1));
@@ -331,4 +361,11 @@ function clean_(value, maxLength) {
 
 function hash_(value) {
   return Utilities.base64EncodeWebSafe(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, value)).replace(/=+$/g, "");
+}
+
+function escapeHtml_(value) {
+  const replacements = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+  return String(value == null ? "" : value).replace(/[&<>"']/g, function (character) {
+    return replacements[character];
+  });
 }

@@ -587,10 +587,9 @@
 
       rsvpTimeout = window.setTimeout(() => {
         if (!pendingRsvpToken) return;
-        pendingRsvpToken = '';
         rsvpButton.disabled = false;
-        rsvpStatus.textContent = 'We could not confirm the submission. Please try again or contact the host.';
-      }, 20000);
+        rsvpStatus.textContent = 'This is taking longer than usual. Your RSVP may already be recorded. Please check your email before submitting again, or contact the host.';
+      }, 60000);
     });
 
     const galleryCards = [...document.querySelectorAll('.gallery-item')];

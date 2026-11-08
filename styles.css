@@ -699,6 +699,9 @@
     .rsvp-copy p { color: var(--muted); }
     .rsvp-stars { color: var(--gold); letter-spacing: .5em; }
     .rsvp-form { padding: clamp(1.2rem, 3.5vw, 2rem); background: var(--white); border: 1px solid var(--rose-line); border-radius: 24px; box-shadow: var(--shadow); }
+    .rsvp-plus-one { display: flex; align-items: center; gap: .7rem; margin: 0 0 1.25rem; padding: .8rem 1rem; color: var(--rose-dark); background: linear-gradient(135deg, #fbf0ed, #fff8f1); border: 1px solid var(--rose-line); border-left: 4px solid var(--rose); border-radius: 12px; font-size: .95rem; line-height: 1.35; }
+    .rsvp-plus-one > span:first-child { flex: 0 0 auto; color: var(--gold); font-size: 1.25rem; }
+    .rsvp-plus-one strong { color: var(--rose); font-family: var(--serif); font-size: .96rem; }
     .form-field { margin-bottom: 1rem; }
     .form-field label, .form-field legend { display: block; margin-bottom: .35rem; color: var(--rose-dark); font-family: var(--label); font-size: 1rem; font-weight: 400; }
     .form-field input, .form-field select, .form-field textarea { width: 100%; min-height: 48px; padding: .75rem .85rem; color: var(--ink); background: #fffafb; border: 1px solid #e7cad8; border-radius: 12px; }

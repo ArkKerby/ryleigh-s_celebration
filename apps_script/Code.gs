@@ -219,51 +219,39 @@ function sendConfirmation_(guest, classification) {
     if (cache.get(recipientKey)) return false;
     if (MailApp.getRemainingDailyQuota() < 1) return false;
 
-    const subject = "Your RSVP is received | Princess Ryleigh";
+    const subject = "RSVP Confirmation | Princess Ryleigh";
     const emailRole = classification.finalRole === "Review" ? "Other guest (name needs review)" : classification.finalRole;
-    const matchedNameLine = classification.matchedName ? "Matched godparent: " + classification.matchedName : "";
     const roleLine = emailRole + (classification.matchedName ? " (" + classification.matchedName + ")" : "");
-    const bodyLines = [
-      "Hi " + guest.name + ",",
+    const body = [
+      "PRINCESS RYLEIGH",
+      "RSVP CONFIRMATION",
+      "For " + guest.name,
       "",
-      "We received your RSVP for Princess Ryleigh’s Christening and First Birthday Celebration.",
+      "Your response has been recorded.",
+      "",
+      "DATE",
+      "Saturday, November 21, 2026",
+      "",
+      "CHRISTENING | 10:30 in the morning",
+      "Parish of the Immaculate Heart of Mary",
+      "Daang Bakal Road, Antipolo, Philippines, 1870",
+      "",
+      "BIRTHDAY CELEBRATION | 4:00 in the afternoon",
+      "CPoint Villa",
+      "678, 1800 Bagong Silang, Marikina, 1800",
       "",
       "Attendance: " + guest.attendance,
       "Guest type: " + roleLine,
-      matchedNameLine || null,
       "",
-      "Your message:",
+      "Strictly no Plus 1. This invitation is for the named guest only.",
+      "",
+      "Your blessing:",
       guest.message,
       "",
-      "Thank you for being part of Ryleigh’s special day!",
       "With love,",
       "The Merlan Family"
-    ];
-    const body = bodyLines.filter(function (line) { return line !== null; }).join("\n");
-    const htmlBody = [
-      '<div style="margin:0;padding:30px 12px;background-color:#f8efec;font-family:Georgia,\'Times New Roman\',serif;color:#593743;">',
-      '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:620px;margin:0 auto;border:1px solid #ead8d1;border-radius:18px;overflow:hidden;background-color:#fffaf4;">',
-      '<tr><td style="padding:28px 24px;text-align:center;background-color:#a64f67;color:#fffaf4;">',
-      '<p style="margin:0 0 10px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#f8dfc4;">&#10022; A royal thank you &#10022;</p>',
-      '<h1 style="margin:0;font-size:30px;line-height:1.2;font-weight:normal;">Your RSVP is received</h1>',
-      '<p style="margin:10px 0 0;font-size:16px;line-height:1.5;color:#fff0e8;">Princess Ryleigh\'s Christening &amp; First Birthday</p>',
-      '</td></tr>',
-      '<tr><td style="padding:30px 28px 24px;">',
-      '<p style="margin:0 0 16px;font-size:19px;">Dear ' + escapeHtml_(guest.name) + ',</p>',
-      '<p style="margin:0 0 22px;font-size:15px;line-height:1.7;color:#725f58;">Thank you for letting us know. We have recorded your RSVP and are so happy to celebrate this special day with you.</p>',
-      '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border-spacing:0;background-color:#f8efec;border:1px solid #efdfd9;border-radius:12px;">',
-      '<tr><td style="padding:14px 16px;border-bottom:1px solid #ead8d1;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#987b70;">Attendance</td><td align="right" style="padding:14px 16px;border-bottom:1px solid #ead8d1;font-size:15px;color:#593743;">' + escapeHtml_(guest.attendance) + '</td></tr>',
-      '<tr><td style="padding:14px 16px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#987b70;">Guest type</td><td align="right" style="padding:14px 16px;font-size:15px;color:#593743;">' + escapeHtml_(emailRole) + '</td></tr>',
-      '</table>',
-      (classification.matchedName ? '<p style="margin:12px 2px 0;font-size:13px;color:#806b61;">Godparent match: <strong style="color:#593743;">' + escapeHtml_(classification.matchedName) + '</strong></p>' : ''),
-      '<p style="margin:24px 0 8px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#987b70;">Your blessing</p>',
-      '<div style="padding:15px 17px;border-left:3px solid #c9a56d;border-radius:0 10px 10px 0;background-color:#fff4ee;font-size:15px;line-height:1.7;color:#654753;white-space:pre-wrap;word-break:break-word;">' + escapeHtml_(guest.message) + '</div>',
-      '<p style="margin:25px 0 0;font-size:15px;line-height:1.7;color:#725f58;">Thank you for being part of Ryleigh\'s fairytale. We look forward to celebrating with you!</p>',
-      '<p style="margin:18px 0 0;font-size:15px;line-height:1.7;color:#725f58;">With love,<br><strong style="color:#a64f67;">The Merlan Family</strong></p>',
-      '</td></tr>',
-      '<tr><td style="padding:15px 22px;text-align:center;border-top:1px solid #ead8d1;background-color:#fff5ef;font-family:Arial,sans-serif;font-size:11px;line-height:1.6;color:#9a8278;">A little celebration filled with love, blessings, and storybook magic.</td></tr>',
-      '</table></div>'
-    ].join("");
+    ].join("\n");
+    const htmlBody = buildRsvpEmailHtml_(guest, classification, emailRole);
 
     MailApp.sendEmail({
       to: guest.email,
@@ -278,6 +266,47 @@ function sendConfirmation_(guest, classification) {
   } finally {
     lock.releaseLock();
   }
+}
+
+function buildRsvpEmailHtml_(guest, classification, emailRole) {
+  const attending = /^Yes,/i.test(guest.attendance);
+  const intro = attending
+    ? "Your RSVP is confirmed. We look forward to celebrating this special day with you."
+    : "Thank you for letting us know. Your response has been recorded.";
+  const matchBlock = classification.matchedName
+    ? '<p style="margin:12px 0 0;font-size:13px;color:#725f58;">Godparent match: <strong>' + escapeHtml_(classification.matchedName) + '</strong></p>'
+    : "";
+
+  return [
+    '<!doctype html><html><body style="margin:0;padding:0;background-color:#eee4cf;">',
+    '<div style="margin:0;padding:30px 12px;background-color:#eee4cf;font-family:Georgia,\'Times New Roman\',serif;color:#49382f;">',
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:0 auto;border:1px solid #c5a47d;background-color:#f6eee0;">',
+    '<tr><td style="padding:28px 24px 22px;text-align:center;border-bottom:1px solid #d8c19b;">',
+    '<p style="margin:0 0 9px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:2px;color:#8b633d;">PRINCESS RYLEIGH</p>',
+    '<h1 style="margin:0;color:#a64f67;font-size:32px;line-height:1.2;font-weight:bold;">RSVP Confirmation</h1>',
+    '<p style="margin:12px 0 0;color:#71384b;font-size:18px;">For ' + escapeHtml_(guest.name) + '</p>',
+    '</td></tr>',
+    '<tr><td style="padding:25px 28px 28px;text-align:center;">',
+    '<p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:#654d43;">' + intro + '</p>',
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px;background-color:#ede2cd;">',
+    '<tr><td colspan="2" style="padding:16px 14px 5px;text-align:center;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1.5px;color:#8b633d;">DATE</td></tr>',
+    '<tr><td colspan="2" style="padding:0 14px 15px;text-align:center;font-size:16px;color:#49382f;">Saturday, November 21, 2026</td></tr>',
+    '<tr><td colspan="2" style="padding:14px 14px 4px;text-align:center;border-top:1px solid #d8cbb5;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1.2px;color:#8b633d;">CHRISTENING · 10:30 IN THE MORNING</td></tr>',
+    '<tr><td colspan="2" style="padding:0 14px 13px;text-align:center;font-size:15px;line-height:1.5;color:#49382f;"><strong>Parish of the Immaculate Heart of Mary</strong><br>Daang Bakal Road, Antipolo, Philippines, 1870</td></tr>',
+    '<tr><td colspan="2" style="padding:14px 14px 4px;text-align:center;border-top:1px solid #d8cbb5;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1.2px;color:#8b633d;">BIRTHDAY CELEBRATION · 4:00 IN THE AFTERNOON</td></tr>',
+    '<tr><td colspan="2" style="padding:0 14px 16px;text-align:center;font-size:15px;line-height:1.5;color:#49382f;"><strong>CPoint Villa</strong><br>678, 1800 Bagong Silang, Marikina, 1800</td></tr>',
+    '</table>',
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px;border:1px solid #e1cead;background-color:#fff9ef;">',
+    '<tr><td style="padding:13px 14px;border-bottom:1px solid #e1cead;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1px;color:#8b633d;">ATTENDANCE</td><td align="right" style="padding:13px 14px;border-bottom:1px solid #e1cead;font-size:15px;color:#49382f;">' + escapeHtml_(guest.attendance) + '</td></tr>',
+    '<tr><td style="padding:13px 14px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1px;color:#8b633d;">GUEST TYPE</td><td align="right" style="padding:13px 14px;font-size:15px;color:#49382f;">' + escapeHtml_(emailRole) + '</td></tr>',
+    '</table>',
+    matchBlock,
+    '<div style="margin:18px 0 0;padding:14px 16px;border:1px dashed #a64f67;background-color:#f1e5d4;color:#71384b;font-size:14px;line-height:1.6;">This invitation is for the named guest only.<br><strong>Strictly no Plus 1.</strong></div>',
+    '<p style="margin:21px 0 6px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1.3px;color:#8b633d;">YOUR BLESSING</p>',
+    '<div style="padding:12px 15px;background-color:#fff9ef;border-left:3px solid #c5a47d;text-align:left;font-size:14px;line-height:1.6;color:#654d43;white-space:pre-wrap;word-break:break-word;">' + escapeHtml_(guest.message) + '</div>',
+    '<p style="margin:21px 0 0;font-size:15px;line-height:1.6;color:#654d43;">With love,<br><strong style="color:#a64f67;">The Merlan Family</strong></p>',
+    '</td></tr></table></div></body></html>'
+  ].join("");
 }
 
 function markEmailStatus_(row, emailSent) {

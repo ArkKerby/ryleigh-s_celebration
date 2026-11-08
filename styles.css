@@ -46,24 +46,12 @@
     .ambient-background__layer {
       position: absolute;
       inset: -1.5%;
-      opacity: 0;
+      opacity: .8;
+      background-image: url("assets_background/Background.jpg");
+      background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
-      transform: scale(1);
-      transition: opacity 900ms ease;
-      animation: invitation-backdrop-drift 46s ease-in-out infinite alternate paused;
-    }
-    .ambient-background__layer:first-child {
-      background-image: url("assets_background/360_F_1414030689_Z0S1JRbr9MD4VKDl4QFL3gkjhSVxL1kw_upscayl_4x_upscayl-standard-4x.png");
-      background-position: 68% center;
-    }
-    .ambient-background__layer.is-visible {
-      opacity: var(--ambient-opacity, .38);
-      animation-play-state: running;
-    }
-    @keyframes invitation-backdrop-drift {
-      from { transform: scale(1); }
-      to { transform: scale(1.045); }
+      transform: none;
     }
     .party-atmosphere { position: absolute; z-index: 1; inset: 0; overflow: hidden; pointer-events: none; }
     .party-balloon {
@@ -306,7 +294,7 @@
       overflow: auto;
       padding: clamp(1rem, 4vw, 3rem);
       color: var(--rose-dark);
-      background: linear-gradient(135deg, rgba(72, 43, 58, .28), rgba(101, 55, 76, .34)), url("assets_background/rose-gold-balloons-background-valentine-celebration_25819-754_upscayl_4x_upscayl-standard-4x.png") center / cover;
+      background: linear-gradient(135deg, rgba(72, 43, 58, .18), rgba(101, 55, 76, .22)), url("assets_background/Background.jpg") center / cover no-repeat;
       opacity: 1;
       visibility: visible;
       transition: opacity .76s ease, visibility 0s linear;
@@ -328,124 +316,42 @@
     .birthday-intro__eyebrow { margin: 0 0 .25rem; color: var(--rose); font-family: var(--soft-script); font-size: clamp(1.35rem, 3vw, 1.8rem); }
     .birthday-intro__content h1 { margin: 0; color: var(--rose-dark); font-family: var(--serif); font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.12; }
     .birthday-intro__help { max-width: 34rem; margin: .5rem 0 0; color: var(--muted); font-family: var(--label); font-size: clamp(1.05rem, 2.3vw, 1.35rem); }
-    .birthday-cake {
-      position: relative;
+    .birthday-reveal {
       display: block;
-      width: clamp(220px, 36vw, 330px);
-      height: 270px;
+      width: clamp(240px, 42vw, 400px);
+      aspect-ratio: 1;
       flex: 0 0 auto;
-      margin: .4rem auto 0;
+      margin: .8rem auto .25rem;
       padding: 0;
+      overflow: hidden;
       background: transparent;
-      border: 0;
-      border-radius: 50%;
+      border: 3px solid rgba(255, 250, 242, .92);
+      border-radius: 24px;
+      box-shadow: 0 14px 34px rgba(72, 39, 57, .24);
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
+      transition: transform .3s ease, box-shadow .3s ease;
     }
-    .birthday-cake:focus-visible { outline: 3px solid var(--rose); outline-offset: 7px; }
-    .cake-plate {
-      position: absolute;
-      z-index: 1;
-      bottom: 15px;
-      left: 0;
-      width: 100%;
-      height: 24px;
-      border: 2px solid rgba(197, 164, 125, .74);
-      border-radius: 50%;
-      background: linear-gradient(#fffdf8, #ead8d1);
-      box-shadow: 0 10px 15px rgba(91, 55, 69, .16);
+    .birthday-reveal:focus-visible { outline: 3px solid var(--rose); outline-offset: 7px; }
+    .birthday-reveal img { width: 100%; height: 100%; object-fit: cover; }
+    .birthday-reveal:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 19px 40px rgba(72, 39, 57, .29); }
+    .birthday-intro.is-opening .birthday-reveal { animation: invitation-envelope-open .9s cubic-bezier(.2, .75, .3, 1) forwards; }
+    @keyframes invitation-envelope-open {
+      0% { opacity: 1; transform: scale(1); }
+      42% { opacity: 1; transform: scale(1.055) rotate(-1.5deg); }
+      100% { opacity: .65; transform: scale(.84) translateY(-14px); }
     }
-    .cake-tier {
-      position: absolute;
-      display: block;
-      border: 1px solid rgba(186, 117, 133, .48);
-      background: linear-gradient(145deg, #f8d6da, #eaaebc);
-      box-shadow: inset 0 -10px 16px rgba(176, 88, 115, .14), 0 8px 15px rgba(94, 51, 66, .14);
-    }
-    .cake-tier::before {
-      position: absolute;
-      top: -9px;
-      right: -2px;
-      left: -2px;
-      height: 24px;
-      border: 1px solid rgba(227, 195, 174, .7);
-      border-radius: 50%;
-      background: linear-gradient(#fffdf5, #f8ece2);
-      content: "";
-    }
-    .cake-tier::after {
-      position: absolute;
-      top: 4px;
-      left: 15%;
-      width: 9px;
-      height: 19px;
-      border-radius: 0 0 7px 7px;
-      background: #fff8f0;
-      box-shadow: 43px 0 #fff8f0, 91px 1px #fff8f0;
-      content: "";
-    }
-    .cake-tier--top { z-index: 3; bottom: 102px; left: 20%; width: 60%; height: 76px; border-radius: 16px 16px 10px 10px; }
-    .cake-tier--bottom { z-index: 2; bottom: 26px; left: 5%; width: 90%; height: 93px; border-radius: 17px 17px 22px 22px; background: linear-gradient(145deg, #f2c2cf, #df91a8); }
-    .cake-tier--bottom::after { box-shadow: 49px 1px #fff8f0, 105px 0 #fff8f0, 167px 2px #fff8f0, 221px 0 #fff8f0; }
-    .cake-tier i { position: absolute; z-index: 1; top: 43%; width: 7px; height: 11px; border-radius: 5px; background: var(--gold); transform: rotate(28deg); }
-    .cake-tier i:nth-child(1) { left: 27%; }
-    .cake-tier i:nth-child(2) { left: 43%; background: #a64f67; transform: rotate(-25deg); }
-    .cake-tier i:nth-child(3) { left: 59%; }
-    .cake-tier i:nth-child(4) { left: 74%; background: #a64f67; transform: rotate(-25deg); }
-    .cake-candle { position: absolute; z-index: 5; top: 19px; left: 50%; display: block; width: 19px; height: 87px; border: 1px solid rgba(196, 132, 112, .66); border-radius: 6px 6px 3px 3px; background: repeating-linear-gradient(135deg, #fff7e9 0 7px, #d98391 7px 13px); box-shadow: 0 4px 8px rgba(89, 52, 65, .16); transform: translateX(-50%); }
-    .cake-wick { position: absolute; top: -6px; left: 50%; width: 3px; height: 9px; border-radius: 2px; background: #533842; transform: translateX(-50%); }
-    .cake-flame { position: absolute; top: -39px; left: 50%; display: block; width: 25px; height: 38px; isolation: isolate; border-radius: 55% 45% 50% 50% / 67% 64% 36% 33%; background: radial-gradient(ellipse at 50% 73%, #fffbd9 0 13%, #ffd466 32%, #f99a5b 61%, rgba(231, 111, 85, .12) 78%); filter: drop-shadow(0 0 8px rgba(255, 186, 91, .85)); transform: translateX(-50%); transform-origin: center bottom; animation: birthday-flame-flicker .9s ease-in-out infinite alternate; }
-    .cake-flame::before, .cake-flame::after { position: absolute; z-index: -1; top: 58%; left: 44%; display: block; border-radius: 50%; content: ""; opacity: 0; pointer-events: none; transform: translateY(-50%) scaleX(.08); transform-origin: left center; }
-    .cake-flame::before { width: 64px; height: 13px; background: linear-gradient(90deg, rgba(255, 247, 191, .95), rgba(255, 192, 86, .86) 36%, rgba(249, 131, 75, .4) 72%, transparent); filter: blur(1px); }
-    .cake-flame::after { width: 96px; height: 8px; background: linear-gradient(90deg, rgba(255, 185, 87, .68), rgba(245, 132, 81, .32) 56%, transparent); filter: blur(3px); }
-    .cake-smoke { position: absolute; top: -44px; left: 50%; display: block; width: 1px; height: 1px; }
-    .cake-smoke i { position: absolute; top: 0; left: 0; display: block; width: 10px; height: 21px; border-left: 2px solid rgba(123, 111, 112, .52); border-radius: 50%; opacity: 0; filter: blur(1px); }
-    .cake-smoke i:nth-child(2) { left: -7px; height: 16px; }
-    .cake-smoke i:nth-child(3) { left: 5px; height: 18px; }
-    .is-blowing .cake-flame { animation: candle-blow-out .95s cubic-bezier(.2, .78, .28, 1) forwards; }
-    .is-blowing .cake-flame::before { animation: flame-trail .72s ease-out .02s forwards; }
-    .is-blowing .cake-flame::after { animation: flame-trail .78s ease-out .08s forwards; }
-    .is-blowing .cake-smoke i { animation: smoke-wisp 1.1s ease-out .08s forwards; }
-    .is-blowing .cake-smoke i:nth-child(2) { animation-delay: .2s; }
-    .is-blowing .cake-smoke i:nth-child(3) { animation-delay: .34s; }
     .birthday-intro__prompt { min-height: 1.8em; margin: -.1rem 0 .3rem; color: var(--rose-dark); font-family: var(--soft-script); font-size: clamp(1.3rem, 3vw, 1.65rem); }
     .birthday-intro__skip { color: var(--rose-dark); font-family: var(--label); font-size: 1rem; text-underline-offset: 3px; }
-    @keyframes birthday-flame-flicker { from { transform: translateX(-50%) rotate(-4deg) scale(.94, 1); } to { transform: translateX(-50%) rotate(5deg) scale(1.06, 1.1); } }
-    @keyframes candle-blow-out {
-      0% { opacity: 1; filter: drop-shadow(0 0 8px rgba(255, 186, 91, .85)); transform: translateX(-50%) rotate(0) scale(1); }
-      18% { opacity: 1; transform: translateX(-16%) rotate(32deg) skewX(12deg) scale(1.05, .92); }
-      42% { opacity: .82; transform: translateX(10%) rotate(62deg) skewX(20deg) scale(.82, .72); }
-      68% { opacity: .38; filter: blur(1px); transform: translateX(40%) translateY(4px) rotate(88deg) skewX(17deg) scale(.48, .45); }
-      100% { opacity: 0; filter: blur(5px); transform: translateX(65%) translateY(9px) rotate(118deg) skewX(25deg) scale(.08, .12); }
-    }
-    @keyframes flame-trail {
-      0% { opacity: 0; filter: blur(1px); transform: translateY(-50%) scaleX(.08); }
-      20% { opacity: .95; transform: translateY(-50%) scaleX(.92); }
-      58% { opacity: .62; transform: translateY(-50%) scaleX(1.38); }
-      100% { opacity: 0; filter: blur(7px); transform: translate(17px, -50%) scaleX(1.68); }
-    }
-    @keyframes smoke-wisp {
-      0% { opacity: 0; transform: translate(0, 13px) rotate(-12deg) scale(.45); }
-      24% { opacity: .58; }
-      100% { opacity: 0; transform: translate(8px, -37px) rotate(17deg) scale(1.35); }
-    }
     @media (max-width: 600px) {
       html.has-birthday-intro .birthday-intro { padding: .75rem; }
       .birthday-intro__content { padding: 1.3rem .9rem 1.15rem; border-radius: 24px; }
-      .birthday-cake { width: min(280px, 84vw); height: 235px; }
-      .cake-plate { bottom: 9px; }
-      .cake-tier--top { bottom: 88px; }
-      .cake-tier--bottom { bottom: 17px; height: 86px; }
-      .cake-candle { top: 12px; height: 79px; }
-      .cake-tier--bottom::after { box-shadow: 43px 1px #fff8f0, 88px 0 #fff8f0, 137px 2px #fff8f0, 181px 0 #fff8f0; }
+      .birthday-reveal { width: min(360px, 84vw); border-radius: 20px; }
     }
     .hero {
       position: relative;
       overflow: hidden;
       padding: 5rem 0 2rem;
-      --scene-image: url("assets_background/360_F_1414030689_Z0S1JRbr9MD4VKDl4QFL3gkjhSVxL1kw_upscayl_4x_upscayl-standard-4x.png");
-      --scene-position: 68% center;
-      --scene-opacity: .4;
       background: linear-gradient(180deg, rgba(240, 225, 229, .48) 0%, rgba(249, 239, 240, .42) 56%, rgba(246, 238, 229, .56) 100%);
     }
     .hero::before, .hero::after {
@@ -457,9 +363,6 @@
     }
     .hero::before { top: 11%; left: 5%; font-size: 2rem; }
     .hero::after { right: 8%; bottom: 14%; font-size: 2.7rem; }
-    #celebration, #gifts { --scene-image: url("assets_background/pngtree-birthday-balloons-pink-background-image_1401964_upscayl_4x_upscayl-standard-4x.png"); --scene-position: center; --scene-opacity: .35; }
-    #details, #gallery { --scene-image: url("assets_background/pink-purple-birthday-background-balloon-people-person_53876-2152037875_upscayl_4x_upscayl-standard-4x.png"); --scene-position: 72% center; --scene-opacity: .32; }
-    #health, #rsvp { --scene-image: url("assets_background/360_F_1414030689_Z0S1JRbr9MD4VKDl4QFL3gkjhSVxL1kw_upscayl_4x_upscayl-standard-4x.png"); --scene-position: 68% center; --scene-opacity: .36; }
     .hero-grid {
       position: relative;
       z-index: 1;
@@ -586,6 +489,13 @@
       object-fit: cover;
       object-position: 50% 34%;
       border-radius: 50%;
+    }
+    .hero-princess-display {
+      width: 76%;
+      max-height: 210px;
+      margin: .8rem auto 0;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 14px rgba(105, 61, 84, .2));
     }
     .photo-caption {
       position: absolute;
@@ -729,7 +639,7 @@
     }
     .gallery-note { margin: 2rem 0 0; color: var(--muted); font-family: var(--soft-script); font-size: 1.35rem; text-align: center; }
 
-    .godparents-section { overflow: hidden; --scene-image: url("assets_background/pink-purple-birthday-background-balloon-people-person_53876-2152037875_upscayl_4x_upscayl-standard-4x.png"); --scene-position: 72% center; --scene-opacity: .34; background: linear-gradient(150deg, rgba(249,239,240,.34), rgba(246,238,229,.4)); }
+    .godparents-section { overflow: hidden; background: linear-gradient(150deg, rgba(249,239,240,.34), rgba(246,238,229,.4)); }
     .godparents-card { position: relative; max-width: 980px; margin: 0 auto; padding: clamp(1.5rem, 5vw, 3.4rem); background: rgba(255,255,255,.85); border: 1px solid var(--rose-line); border-radius: 30px; box-shadow: var(--shadow); }
     .godparents-card::before, .godparents-card::after { position: absolute; color: rgba(199,154,88,.55); font-size: 2rem; content: "✧"; }
     .godparents-card::before { top: 1.1rem; left: 1.2rem; }
@@ -746,7 +656,7 @@
     .godparent-thanks { max-width: 600px; margin: 1.5rem auto .15rem; color: var(--rose-dark); font-family: var(--soft-script); font-size: 1.45rem; text-align: center; }
     .godparent-signoff { margin: 0; color: var(--rose); font-family: var(--soft-script); font-size: 1.5rem; text-align: center; }
 
-    .royal-section { --scene-image: url("assets_background/pngtree-birthday-balloons-pink-background-image_1401964_upscayl_4x_upscayl-standard-4x.png"); --scene-position: center; --scene-opacity: .35; background: rgba(246, 238, 229, .34); }
+    .royal-section { background: rgba(246, 238, 229, .34); }
     .royal-card { --royal-columns: 5; max-width: 900px; margin: 0 auto; padding: clamp(1.5rem, 4vw, 2.8rem); background: linear-gradient(145deg, #f8e9eb, #fffaf2); border: 1px solid var(--rose-line); border-radius: 28px; text-align: center; box-shadow: var(--shadow); }
     .princess-chips { display: grid; grid-template-columns: repeat(var(--royal-columns), minmax(0, 1fr)); gap: .6rem .48rem; margin: 1.2rem 0 1.5rem; }
     .princess-chips span { display: flex; min-height: 2.2rem; align-items: center; justify-content: center; padding: .34rem .45rem; color: var(--rose-dark); background: var(--white); border: 1px solid var(--rose-line); border-radius: 999px; font-family: var(--label); font-size: .95rem; line-height: 1.1; }
@@ -770,7 +680,7 @@
 
     .gift-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .9rem; margin: 1.4rem 0; }
     .gift-item { padding: 1rem .7rem; background: rgba(255,255,255,.8); border: 1px solid var(--rose-line); border-radius: 18px; }
-    .gift-item span { display: block; font-size: 2rem; }
+    .gift-item img { width: 100%; height: clamp(90px, 12vw, 140px); margin: 0 auto .55rem; object-fit: contain; border-radius: 12px; }
     .gift-item strong { display: block; margin-top: .3rem; color: var(--rose-dark); font-family: var(--soft-script); font-size: 1.3rem; font-weight: 400; }
     .gift-copy { max-width: 760px; margin: 0 auto; text-align: center; }
     .gift-copy p { margin: .8rem 0; }
@@ -798,9 +708,10 @@
     .rsvp-form .button { width: 100%; margin-top: .2rem; cursor: pointer; }
     .form-note, .form-status { margin: .75rem 0 0; color: var(--muted); font-size: .73rem; line-height: 1.55; }
     .form-status { min-height: 1.5em; color: var(--rose-dark); font-weight: 700; }
+    .form-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
     .rsvp-thankyou { margin: .85rem 0 0; color: var(--rose); font-family: var(--soft-script); font-size: 1.45rem; text-align: center; }
 
-    .ending { padding: clamp(4rem, 8vw, 7rem) 0 2rem; --scene-image: url("assets_background/360_F_1414030689_Z0S1JRbr9MD4VKDl4QFL3gkjhSVxL1kw_upscayl_4x_upscayl-standard-4x.png"); --scene-position: 68% center; --scene-opacity: .36; background: linear-gradient(135deg, rgba(243,227,229,.34), rgba(246,238,229,.4)); }
+    .ending { padding: clamp(4rem, 8vw, 7rem) 0 2rem; background: linear-gradient(135deg, rgba(243,227,229,.34), rgba(246,238,229,.4)); }
     .ending-card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, .7fr); align-items: center; gap: clamp(1.5rem, 5vw, 4rem); max-width: 1000px; margin: 0 auto; padding: clamp(1.25rem, 4vw, 2rem); background: rgba(255,255,255,.82); border: 1px solid rgba(255,255,255,.9); border-radius: 30px; }
     .ending-copy { padding: clamp(.5rem, 2vw, 1.5rem); }
     .ending-copy h2 { margin: 0; color: var(--rose); font-family: var(--serif); font-size: clamp(2rem, 4.8vw, 3.5rem); font-style: normal; font-weight: 400; line-height: 1.1; }
@@ -836,7 +747,7 @@
       .music-volume { width: clamp(3rem, 20vw, 6rem); }
       .hero { display: block; min-height: 0; padding: 3.25rem 0 3rem; }
       .hero-grid { width: 100%; grid-template-columns: 1fr; gap: 2.2rem; }
-      .hero-copy { padding-right: 0; text-align: center; }
+      .hero-copy { padding-right: 0; padding-bottom: 0; text-align: center; }
       .hero .eyebrow { font-size: 1.25rem; letter-spacing: .1em; }
       .hero-kicker { width: min(1080px, 100%); }
       .hero-kicker { margin-inline: auto; }
@@ -845,7 +756,9 @@
       .hero-subtitle { margin: 0 auto .7rem; }
       .hero-story { margin: 0 auto .55rem; }
       .hero-actions { justify-content: center; }
-      .hero-photo-wrap { position: relative; top: auto; right: auto; width: 150px; margin: .15rem auto 1.1rem; transform: none; }
+      .hero-photo-wrap { position: relative; top: auto; right: auto; width: min(270px, 84vw); margin: .15rem auto 1.1rem; transform: none; }
+      .hero-photo-frame { width: 150px; margin-inline: auto; }
+      .hero-princess-display { width: 100%; max-height: 190px; }
       .date-chip { margin-inline: auto; }
       .photo-caption { right: -.7rem; bottom: 1.3rem; }
       .scroll-cue { align-items: center; margin: 1.3rem auto 0; }
@@ -898,7 +811,6 @@
       .ambient-background__layer { animation: none !important; transform: none !important; }
       .party-atmosphere { display: none !important; }
       html.has-birthday-intro .birthday-intro, html.has-birthday-intro .birthday-intro * { animation: none !important; transition: none !important; }
-      .birthday-intro.is-blowing .cake-flame { opacity: 0 !important; }
-      .birthday-intro.is-blowing .cake-smoke i { opacity: .3 !important; }
+      .birthday-intro.is-opening .birthday-reveal { opacity: 0 !important; transform: scale(.96) !important; }
       html.reveal-enabled [data-reveal] { opacity: 1 !important; translate: 0 0 !important; transition: none !important; }
     }

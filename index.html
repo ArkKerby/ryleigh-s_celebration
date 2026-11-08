@@ -14,7 +14,6 @@
 </head>
 <body>
   <div class="ambient-background" aria-hidden="true">
-    <div class="ambient-background__layer is-visible"></div>
     <div class="ambient-background__layer"></div>
     <div class="party-atmosphere">
       <span class="party-balloon party-balloon--rose"></span>
@@ -34,26 +33,19 @@
   <section class="birthday-intro" id="birthday-intro" role="dialog" aria-modal="true" aria-labelledby="birthday-intro-title" aria-describedby="birthday-intro-help" aria-hidden="false">
     <div class="birthday-intro__content">
       <p class="birthday-intro__eyebrow">A little wish before the magic</p>
-      <h1 id="birthday-intro-title">Make a wish for Ryleigh</h1>
-      <p class="birthday-intro__help" id="birthday-intro-help">Tap the candle to open her birthday and Christening invitation.</p>
-      <button class="birthday-cake" id="blow-candle" type="button" aria-label="Blow out the candle and open the invitation">
-        <span class="cake-candle" aria-hidden="true">
-          <span class="cake-wick"></span>
-          <span class="cake-flame"></span>
-          <span class="cake-smoke"><i></i><i></i><i></i></span>
-        </span>
-        <span class="cake-tier cake-tier--top" aria-hidden="true"><i></i><i></i><i></i></span>
-        <span class="cake-tier cake-tier--bottom" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <span class="cake-plate" aria-hidden="true"></span>
+      <h1 id="birthday-intro-title">A Royal Invitation for Ryleigh</h1>
+      <p class="birthday-intro__help" id="birthday-intro-help">Tap the enchanted envelope to reveal her birthday and Christening invitation.</p>
+      <button class="birthday-reveal" id="open-invitation" type="button" aria-label="Tap to open Ryleigh's animated invitation">
+        <img src="Magical%20Princess%20Invitation%20Reveal.gif" alt="A sparkling pink invitation envelope before a fairytale castle" fetchpriority="high">
       </button>
-      <p class="birthday-intro__prompt" id="birthday-intro-prompt">Blow out the candle to begin</p>
+      <p class="birthday-intro__prompt" id="birthday-intro-prompt">Tap the envelope to begin</p>
       <a class="birthday-intro__skip" id="skip-birthday-intro" href="#main">Skip to the invitation</a>
     </div>
   </section>
   <script>
     (() => {
       const intro = document.getElementById('birthday-intro');
-      const cake = document.getElementById('blow-candle');
+      const revealButton = document.getElementById('open-invitation');
       const skip = document.getElementById('skip-birthday-intro');
       const prompt = document.getElementById('birthday-intro-prompt');
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -73,13 +65,14 @@
       };
 
       document.documentElement.classList.add('intro-open');
-      cake.focus({ preventScroll: true });
-      cake.addEventListener('click', () => {
+      revealButton.focus({ preventScroll: true });
+      revealButton.addEventListener('click', () => {
         if (closing) return;
         closing = true;
-        prompt.textContent = 'A little wish... here comes the magic!';
-        intro.classList.add('is-blowing');
-        window.setTimeout(finishIntro, reducedMotion ? 0 : 1450);
+        prompt.textContent = 'Your royal invitation is opening…';
+        intro.classList.add('is-opening');
+        window.dispatchEvent(new Event('ryleigh:play-music'));
+        window.setTimeout(finishIntro, reducedMotion ? 0 : 1100);
       });
       skip.addEventListener('click', (event) => {
         event.preventDefault();
@@ -150,6 +143,7 @@
             <div class="hero-photo-frame">
               <img class="hero-photo" src="ryleigh-invitation-assets/birthday-portrait.jpg" alt="Ryleigh smiling in her white christening dress" fetchpriority="high">
             </div>
+            <img class="hero-princess-display" src="Disney%20Princess.gif" alt="Animated display of Disney Princess characters" decoding="async">
           </figure>
           <p class="date-chip"><span aria-hidden="true">✧</span> November 21, 2026</p>
           <div class="hero-actions">
@@ -269,6 +263,16 @@
             <img src="ryleigh-invitation-assets/gallery-ryleigh-04.jpg" alt="A close portrait of Ryleigh in her birthday dress" loading="lazy" decoding="async">
             <span class="gallery-caption">Dreaming in white lace</span>
           </button>
+          <button class="gallery-item gallery-item--portrait" type="button" aria-pressed="false">
+            <span class="gallery-tape" aria-hidden="true"></span>
+            <img src="ryleigh-invitation-assets/Ryleigh11.11.25-24.jpg" alt="A close portrait of Ryleigh in her birthday dress" loading="lazy" decoding="async">
+            <span class="gallery-caption">Dreaming in white lace</span>
+          </button>
+          <button class="gallery-item gallery-item--portrait" type="button" aria-pressed="false">
+            <span class="gallery-tape" aria-hidden="true"></span>
+            <img src="ryleigh-invitation-assets/Ryleigh11.11.25-25.jpg" alt="A close portrait of Ryleigh in her birthday dress" loading="lazy" decoding="async">
+            <span class="gallery-caption">Dreaming in white lace</span>
+          </button>
         </div>
       </div>
     </section>
@@ -325,20 +329,19 @@
         </div>
         <div class="royal-card">
           <div class="princess-chips" aria-label="Princess-inspired dress-up ideas">
-            <span>Cinderella</span><span>Belle</span><span>Ariel</span><span>Aurora</span><span>Snow White</span><span>Jasmine</span><span>Tiana</span><span>Rapunzel</span><span>Pocahontas</span><span>Mulan</span><span>Merida</span>
           </div>
           <ul class="royal-gallery" aria-label="Ryleigh dressed as the princesses">
-            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-02.jpg" alt="Ryleigh dressed as Cinderella" loading="lazy" decoding="async"><figcaption>Cinderella</figcaption></figure></li>
-            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-07.jpg" alt="Ryleigh dressed as Belle" loading="lazy" decoding="async"><figcaption>Belle</figcaption></figure></li>
-            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-05.jpg" alt="Ryleigh dressed as Ariel" loading="lazy" decoding="async"><figcaption>Ariel</figcaption></figure></li>
-            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-03.jpg" alt="Ryleigh dressed as Aurora" loading="lazy" decoding="async"><figcaption>Aurora</figcaption></figure></li>
-            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-01.jpg" alt="Ryleigh dressed as Snow White" loading="lazy" decoding="async"><figcaption>Snow White</figcaption></figure></li>
-            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-04.jpg" alt="Ryleigh dressed as Jasmine" loading="lazy" decoding="async"><figcaption>Jasmine</figcaption></figure></li>
-            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-10.jpg" alt="Ryleigh dressed as Tiana" loading="lazy" decoding="async"><figcaption>Tiana</figcaption></figure></li>
-            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-09.jpg" alt="Ryleigh dressed as Rapunzel" loading="lazy" decoding="async"><figcaption>Rapunzel</figcaption></figure></li>
-            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-06.jpg" alt="Ryleigh dressed as Pocahontas" loading="lazy" decoding="async"><figcaption>Pocahontas</figcaption></figure></li>
-            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-08.jpg" alt="Ryleigh dressed as Mulan" loading="lazy" decoding="async"><figcaption>Mulan</figcaption></figure></li>
-            <li><figure class="royal-photo-card"><img src="ryleigh-invitation-assets/royal-princess-11.jpg" alt="Ryleigh dressed as Merida" loading="lazy" decoding="async"><figcaption>Merida</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="assets_images/Ryleighs_Photo/01.png" alt="Ryleigh dressed as Snow White" loading="lazy" decoding="async"><figcaption>Snow White</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="assets_images/Ryleighs_Photo/02.png" alt="Ryleigh dressed as Cinderella" loading="lazy" decoding="async"><figcaption>Cinderella</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="assets_images/Ryleighs_Photo/03.png" alt="Ryleigh dressed as Aurora" loading="lazy" decoding="async"><figcaption>Aurora</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="assets_images/Ryleighs_Photo/04.png" alt="Ryleigh dressed as Jasmine" loading="lazy" decoding="async"><figcaption>Jasmine</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="assets_images/Ryleighs_Photo/05.png" alt="Ryleigh dressed as Ariel" loading="lazy" decoding="async"><figcaption>Ariel</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="assets_images/Ryleighs_Photo/06.png" alt="Ryleigh dressed as Pocahontas" loading="lazy" decoding="async"><figcaption>Pocahontas</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="assets_images/Ryleighs_Photo/07.png" alt="Ryleigh dressed as Belle" loading="lazy" decoding="async"><figcaption>Belle</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="assets_images/Ryleighs_Photo/08.png" alt="Ryleigh dressed as Mulan" loading="lazy" decoding="async"><figcaption>Mulan</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="assets_images/Ryleighs_Photo/09.png" alt="Ryleigh dressed as Rapunzel" loading="lazy" decoding="async"><figcaption>Rapunzel</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="assets_images/Ryleighs_Photo/10.png" alt="Ryleigh dressed as Tiana" loading="lazy" decoding="async"><figcaption>Tiana</figcaption></figure></li>
+            <li><figure class="royal-photo-card"><img src="assets_images/Ryleighs_Photo/11.png" alt="Ryleigh dressed as Merida" loading="lazy" decoding="async"><figcaption>Merida</figcaption></figure></li>
           </ul>
           <div class="dress-code-copy">
             <p>To make the celebration even more magical, I kindly invite our lovely guests to dress in any shade of pastel pink, purple, cream, blue, yellow, or green.</p>
@@ -358,9 +361,9 @@
         <div class="gift-copy">
           <p>Your presence and prayers are more than enough to make my celebration extra special. However, should you wish to bless me with a gift, I would be truly grateful for any of the following:</p>
           <div class="gift-grid" aria-label="Gift ideas">
-            <div class="gift-item"><span aria-hidden="true">💌</span><strong>Monetary Gift</strong></div>
-            <div class="gift-item"><span aria-hidden="true">🧸</span><strong>Educational Toys</strong></div>
-            <div class="gift-item"><span aria-hidden="true">👗</span><strong>A Lovely Dress</strong></div>
+            <div class="gift-item"><img src="thoughtful_gifts/Monetary%20Gift.jpg" alt="A monetary gift" loading="lazy" decoding="async"><strong>Monetary Gift</strong></div>
+            <div class="gift-item"><img src="thoughtful_gifts/Educational%20Toys.jpg" alt="Educational toys" loading="lazy" decoding="async"><strong>Educational Toys</strong></div>
+            <div class="gift-item"><img src="thoughtful_gifts/Lovely%20Dress.jpg" alt="A lovely dress" loading="lazy" decoding="async"><strong>A Lovely Dress</strong></div>
           </div>
           <p>Your thoughtfulness and generosity are deeply appreciated, but please know that your presence is already the greatest gift of all. <span aria-hidden="true">💗</span></p>
           <p class="verse">“Every good and perfect gift is from above, coming down from the Father of the heavenly lights…”<cite>James 1:17 (NIV)</cite></p>
@@ -414,13 +417,28 @@
             </select>
           </div>
           <div class="form-field">
+            <label for="guest-type">Which best describes you?</label>
+            <select id="guest-type" name="guestType" required>
+              <option value="" selected disabled>Please choose one</option>
+              <option value="Ninong">Ninong</option>
+              <option value="Ninang">Ninang</option>
+              <option value="Other guest">Other guest</option>
+            </select>
+          </div>
+          <div class="form-field">
             <label for="message">A blessing or message for me <span>(Required)</span></label>
             <textarea id="message" name="message" placeholder="Write a little wish for our princess…" required></textarea>
           </div>
+          <input type="hidden" name="submissionToken" id="submission-token">
+          <div class="form-honeypot" aria-hidden="true">
+            <label for="website">Leave this field empty</label>
+            <input id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
           <button class="button" type="submit">Confirm my RSVP</button>
-          <p class="form-note">This invitation preview does not send or store RSVP responses. Please connect a response service before sharing the form.</p>
+          <p class="form-note">Your RSVP will be recorded and a confirmation sent to the email address above.</p>
           <p class="form-status" id="form-status" aria-live="polite"></p>
           <p class="rsvp-thankyou">Thank You for Being Part of My Fairytale!</p>
+          <iframe id="rsvp-submit-frame" name="rsvp-submit-frame" title="RSVP submission status" hidden></iframe>
         </form>
       </div>
     </section>
@@ -450,6 +468,7 @@
   </main>
 
   <audio id="invitation-audio" preload="none" src="assets_images/Ryleighs_Photo/AA%20Disney%20-%20When%20You%20Wish%20Upon%20a%20Star%20-%20Cover%20Sara%20Bareilles.mp3"></audio>
+  <script src="rsvp-config.js"></script>
   <script>
     const music = document.getElementById('invitation-audio');
     const musicToggle = document.getElementById('music-toggle');
@@ -482,6 +501,9 @@
         musicActionLabel.textContent = 'Music unavailable';
       }
     };
+    window.addEventListener('ryleigh:play-music', () => {
+      if (music.paused) void startMusic();
+    });
     music.volume = Number(musicVolume.value);
     musicVolume.addEventListener('input', () => {
       music.volume = Number(musicVolume.value);
@@ -521,9 +543,54 @@
       window.setTimeout(() => picture.classList.remove('is-tapped'), 700);
     });
 
-    document.getElementById('rsvp-form').addEventListener('submit', (event) => {
+    const rsvpForm = document.getElementById('rsvp-form');
+    const rsvpStatus = document.getElementById('form-status');
+    const rsvpButton = rsvpForm.querySelector('button[type="submit"]');
+    const rsvpFrame = document.getElementById('rsvp-submit-frame');
+    let pendingRsvpToken = '';
+    let rsvpTimeout = 0;
+
+    window.addEventListener('message', (event) => {
+      if (event.source !== rsvpFrame.contentWindow) return;
+      const result = event.data;
+      if (!result || result.type !== 'ryleigh-rsvp-result' || result.token !== pendingRsvpToken) return;
+
+      window.clearTimeout(rsvpTimeout);
+      pendingRsvpToken = '';
+      rsvpButton.disabled = false;
+      if (result.ok) {
+        rsvpStatus.textContent = result.emailSent
+          ? 'Thank you! Your RSVP is recorded and a confirmation email has been sent.'
+          : 'Thank you! Your RSVP is recorded, but the confirmation email could not be sent. Please contact the host.';
+        rsvpForm.reset();
+      } else {
+        rsvpStatus.textContent = result.message || 'We could not submit your RSVP. Please try again.';
+      }
+    });
+
+    rsvpForm.addEventListener('submit', (event) => {
       event.preventDefault();
-      document.getElementById('form-status').textContent = 'Thank you for your lovely message. This preview has not sent your RSVP.';
+      const endpoint = String(window.RYLEIGH_RSVP_ENDPOINT || '').trim();
+      if (!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec(?:\?.*)?$/.test(endpoint)) {
+        rsvpStatus.textContent = 'The RSVP sheet is not connected yet. Please contact the host to RSVP.';
+        return;
+      }
+
+      pendingRsvpToken = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+      document.getElementById('submission-token').value = pendingRsvpToken;
+      rsvpForm.action = endpoint;
+      rsvpForm.method = 'post';
+      rsvpForm.target = 'rsvp-submit-frame';
+      rsvpButton.disabled = true;
+      rsvpStatus.textContent = 'Sending your RSVP…';
+      HTMLFormElement.prototype.submit.call(rsvpForm);
+
+      rsvpTimeout = window.setTimeout(() => {
+        if (!pendingRsvpToken) return;
+        pendingRsvpToken = '';
+        rsvpButton.disabled = false;
+        rsvpStatus.textContent = 'We could not confirm the submission. Please try again or contact the host.';
+      }, 20000);
     });
 
     const galleryCards = [...document.querySelectorAll('.gallery-item')];
@@ -538,71 +605,6 @@
       });
     });
 
-    const invitationSections = [...document.querySelectorAll('#main > section')];
-    const backgroundLayers = [...document.querySelectorAll('.ambient-background__layer')];
-    if ('IntersectionObserver' in window && invitationSections.length && backgroundLayers.length === 2) {
-      const getBackground = (section) => {
-        const styles = getComputedStyle(section);
-        const image = styles.getPropertyValue('--scene-image').trim();
-        const position = styles.getPropertyValue('--scene-position').trim() || 'center';
-        const opacity = styles.getPropertyValue('--scene-opacity').trim() || '.38';
-        return { image, position, opacity, key: `${image}|${position}|${opacity}` };
-      };
-
-      let visibleBackgroundIndex = 0;
-      const initialBackground = getBackground(invitationSections[0]);
-      let visibleBackgroundKey = initialBackground.key;
-      backgroundLayers[0].style.backgroundImage = initialBackground.image;
-      backgroundLayers[0].style.backgroundPosition = initialBackground.position;
-      backgroundLayers[0].style.setProperty('--ambient-opacity', initialBackground.opacity);
-      backgroundLayers[0].classList.add('is-visible');
-
-      function showBackground(section) {
-        const nextBackground = getBackground(section);
-        if (!nextBackground.image || nextBackground.key === visibleBackgroundKey) return;
-
-        const nextIndex = 1 - visibleBackgroundIndex;
-        const nextLayer = backgroundLayers[nextIndex];
-        const currentLayer = backgroundLayers[visibleBackgroundIndex];
-        nextLayer.style.backgroundImage = nextBackground.image;
-        nextLayer.style.backgroundPosition = nextBackground.position;
-        nextLayer.style.setProperty('--ambient-opacity', nextBackground.opacity);
-        nextLayer.classList.add('is-visible');
-        currentLayer.classList.remove('is-visible');
-        visibleBackgroundIndex = nextIndex;
-        visibleBackgroundKey = nextBackground.key;
-      }
-
-      function updateBackground() {
-        const viewportCenter = window.innerHeight / 2;
-        const centeredSection = invitationSections.find((section) => {
-          const bounds = section.getBoundingClientRect();
-          return bounds.top <= viewportCenter && bounds.bottom >= viewportCenter;
-        });
-        const mostVisibleSection = centeredSection || invitationSections
-          .map((section) => {
-            const bounds = section.getBoundingClientRect();
-            const visibleHeight = Math.max(0, Math.min(bounds.bottom, window.innerHeight) - Math.max(bounds.top, 0));
-            return { section, visibleHeight };
-          })
-          .sort((first, second) => second.visibleHeight - first.visibleHeight)[0]?.section;
-        if (mostVisibleSection) showBackground(mostVisibleSection);
-      }
-
-      const backgroundObserver = new IntersectionObserver(updateBackground, { rootMargin: '-12% 0px -12% 0px', threshold: 0 });
-      invitationSections.forEach((section) => backgroundObserver.observe(section));
-      updateBackground();
-      let scheduledBackgroundFrame = 0;
-      const scheduleBackgroundUpdate = () => {
-        if (scheduledBackgroundFrame) return;
-        scheduledBackgroundFrame = requestAnimationFrame(() => {
-          scheduledBackgroundFrame = 0;
-          updateBackground();
-        });
-      };
-      window.addEventListener('scroll', scheduleBackgroundUpdate, { passive: true });
-      window.addEventListener('resize', scheduleBackgroundUpdate, { passive: true });
-    }
   </script>
   <script>
     (() => {

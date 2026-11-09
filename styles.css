@@ -583,8 +583,8 @@
     .event-date { margin: .2rem 0 .15rem; color: var(--rose-dark); font-family: var(--label); font-size: clamp(1.15rem, 2vw, 1.3rem); font-weight: 600; }
     .event-time { margin: .3rem 0 1rem; color: var(--rose); font-family: var(--label); font-size: clamp(1.7rem, 2.5vw, 1.95rem); font-weight: 700; line-height: 1.2; }
     .venue-box { width: 100%; margin: 0 0 1rem; padding: 1rem; background: #fffafb; border: 1px solid var(--rose-line); border-radius: 17px; }
-    .venue-box strong { display: block; color: var(--rose-dark); font-family: var(--body-text); font-size: 1.08rem; font-weight: 700; line-height: 1.35; }
-    .venue-box address { margin: .25rem 0 .85rem; color: var(--muted); font-size: 1.5rem; font-style: normal; line-height: 1.55; }
+    .venue-box strong { display: block; color: var(--rose-dark); font-family: var(--body-text); font-size: 1.7rem; font-weight: 700; line-height: 1.35; }
+    .venue-box address { margin: .25rem 0 .85rem; color: var(--muted); font-size: 1rem; font-style: normal; line-height: 1.55; }
     .event-note { margin: auto 0 0; color: var(--ink); font-family: var(--soft-script); font-size: 1.35rem; }
     .verse { max-width: 540px; margin: 1.8rem auto 0; color: var(--muted); font-family: var(--body-text); font-size: 1.04rem; font-style: italic; text-align: center; }
     .verse cite { display: block; margin-top: .25rem; font-family: var(--body-text); font-size: .88rem; font-style: normal; }

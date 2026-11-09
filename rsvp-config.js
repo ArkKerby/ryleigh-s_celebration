@@ -1,2 +1,2 @@
 // Paste the deployed Apps Script Web App URL here (the URL ending in /exec).
-window.RYLEIGH_RSVP_ENDPOINT = "https://script.google.com/macros/s/AKfycbwEKoTfwWokKAn--K_jg8KHCrli6unPQFf9-quv2KtQ0GAr8g-hfqU3EcerTmruc-Lw/exec";
+window.RYLEIGH_RSVP_ENDPOINT = "https://script.google.com/macros/s/AKfycbxy1vgnkJ_qppzY3hgYTGyL2DuJ8NGwKKJ5mkAgfmidYA432l_luNYoJrSlkYiaphD5/exec";

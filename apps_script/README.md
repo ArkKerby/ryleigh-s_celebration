@@ -7,9 +7,10 @@ The Apps Script is prepared for the spreadsheet at:
 ## Create the tabs and godparent directory
 
 1. Open the spreadsheet and choose **Extensions → Apps Script**.
-2. Replace the editor contents with `Code.gs` from this folder. If the editor exposes `appsscript.json`, use the manifest in this folder too.
-3. Save, select `setupRsvpSystem`, and click **Run**. Authorize spreadsheet access and email sending from the Google account that will own the RSVP service.
-4. The script creates `RSVP Responses`, `Godparent Directory`, and `Summary` tabs. It seeds the directory with the Ninongs and Ninangs currently listed on the invitation. Keep that directory current if names change.
+2. Replace the contents of `Code.gs` with the file from this folder. If the editor exposes `appsscript.json`, use the manifest in this folder too.
+3. In the Apps Script file list, click **+ → HTML**, name the file `RsvpEmail`, and paste the contents of `RsvpEmail.html` from this folder. Keep the HTML in its own file; `Code.gs` loads it by that name.
+4. Save, select `setupRsvpSystem`, and click **Run**. Authorize spreadsheet access and email sending from the Google account that will own the RSVP service.
+5. The script creates `RSVP Responses`, `Godparent Directory`, and `Summary` tabs. It seeds the directory with the Ninongs and Ninangs currently listed on the invitation. Keep that directory current if names change.
 
 ## Deploy the RSVP endpoint
 

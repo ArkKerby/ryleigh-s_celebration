@@ -294,62 +294,20 @@ function sendConfirmation_(guest, classification, bypassRecipientCooldown) {
 
 function buildRsvpEmailHtml_(guest, classification, emailRole) {
   const attending = /^Yes,/i.test(guest.attendance);
-  const intro = attending
+  const template = HtmlService.createTemplateFromFile("RsvpEmail");
+  template.guestName = guest.name || "";
+  template.intro = attending
     ? "Your RSVP is confirmed. We look forward to celebrating this special day with you."
     : "Thank you for letting us know. Your response has been recorded.";
-  const checkInCode = guest.checkInCode || "";
-  const matchBlock = classification.matchedName
-    ? '<p style="margin:12px 0 0;font-size:13px;color:#725f58;">Godparent match: <strong>' + escapeHtml_(classification.matchedName) + '</strong></p>'
-    : "";
-  const checkInBlock = attending && checkInCode
-    ? [
-      '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:22px 0 18px;border:2px dashed #a64f67;background-color:#fff6f4;">',
-      '<tr><td style="padding:18px 16px 6px;text-align:center;font-family:Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:2px;color:#8b633d;">YOUR ENTRANCE PASS</td></tr>',
-      '<tr><td style="padding:0 12px;text-align:center;color:#71384b;font-size:14px;line-height:1.5;">Show this code to the event team at the entrance</td></tr>',
-      '<tr><td style="padding:12px 12px 10px;text-align:center;color:#a64f67;font-family:Arial,sans-serif;font-size:30px;font-weight:bold;letter-spacing:4px;">' + escapeHtml_(checkInCode) + '</td></tr>',
-      '<tr><td style="padding:0 16px 17px;text-align:center;color:#725f58;font-size:12px;line-height:1.5;">This code is for ' + escapeHtml_(guest.name) + ' only. Strictly no Plus 1.</td></tr>',
-      '</table>'
-    ].join("")
-    : attending
-      ? '<div style="margin:22px 0 18px;padding:15px;border:1px solid #e1cead;background-color:#fff9ef;color:#71384b;font-size:14px;line-height:1.6;">Your RSVP is recorded. Please contact the host for your entrance code.</div>'
-      : '<div style="margin:22px 0 18px;padding:15px;border:1px solid #e1cead;background-color:#fff9ef;color:#725f58;font-size:14px;line-height:1.6;">No entrance pass was issued because you replied that you cannot attend.</div>';
-
-  return [
-    '<!doctype html><html lang="en"><body style="margin:0;padding:0;background-color:#f4e8e6;">',
-    '<div style="margin:0;padding:28px 12px;background-color:#f4e8e6;font-family:Georgia,Times New Roman,serif;color:#49382f;">',
-    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;border:1px solid #ead8d1;background-color:#fffaf5;">',
-    '<tr><td style="padding:28px 22px 25px;text-align:center;background-color:#a64f67;color:#fffaf2;">',
-    '<p style="margin:0 0 9px;font-family:Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:2px;color:#f8e8dd;">&#10022; A ROYAL INVITATION &#10022;</p>',
-    '<h1 style="margin:0;color:#fffaf2;font-size:30px;line-height:1.2;font-weight:bold;">Princess Ryleigh</h1>',
-    '<p style="margin:9px 0 0;color:#fff1e8;font-size:15px;line-height:1.5;">A Christening &amp; First Birthday Celebration</p>',
-    '</td></tr>',
-    '<tr><td style="padding:25px 24px 28px;">',
-    '<p style="margin:0 0 8px;color:#71384b;font-size:18px;">Dear ' + escapeHtml_(guest.name) + ',</p>',
-    '<p style="margin:0 0 20px;color:#654d43;font-size:15px;line-height:1.65;">' + intro + '</p>',
-    checkInBlock,
-    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px;border:1px solid #ead8d1;background-color:#fff4f0;">',
-    '<tr><td colspan="2" style="padding:15px 14px 4px;text-align:center;font-family:Arial,sans-serif;font-size:10px;font-weight:bold;letter-spacing:2px;color:#8b633d;">SAVE THE DATE</td></tr>',
-    '<tr><td colspan="2" style="padding:0 14px 16px;text-align:center;color:#a64f67;font-size:20px;font-weight:bold;">Saturday, November 21, 2026</td></tr>',
-    '<tr><td colspan="2" style="padding:13px 14px 4px;text-align:center;border-top:1px solid #ead8d1;font-family:Arial,sans-serif;font-size:10px;font-weight:bold;letter-spacing:1.5px;color:#8b633d;">CHRISTENING &middot; 10:30 AM</td></tr>',
-    '<tr><td colspan="2" style="padding:0 14px 14px;text-align:center;color:#49382f;font-size:14px;line-height:1.55;"><strong>Parish of the Immaculate Heart of Mary</strong><br>Daang Bakal Road, Antipolo, Philippines, 1870</td></tr>',
-    '<tr><td colspan="2" style="padding:13px 14px 4px;text-align:center;border-top:1px solid #ead8d1;font-family:Arial,sans-serif;font-size:10px;font-weight:bold;letter-spacing:1.5px;color:#8b633d;">BIRTHDAY CELEBRATION &middot; 4:00 PM</td></tr>',
-    '<tr><td colspan="2" style="padding:0 14px 16px;text-align:center;color:#49382f;font-size:14px;line-height:1.55;"><strong>CPoint Villa</strong><br>678, 1800 Bagong Silang, Marikina, 1800</td></tr>',
-    '</table>',
-    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px;border:1px solid #ead8d1;background-color:#ffffff;">',
-    '<tr><td style="padding:11px 13px;border-bottom:1px solid #f0e6e2;font-family:Arial,sans-serif;font-size:10px;font-weight:bold;letter-spacing:1px;color:#8b633d;">ATTENDANCE</td><td align="right" style="padding:11px 13px;border-bottom:1px solid #f0e6e2;color:#49382f;font-size:14px;">' + escapeHtml_(guest.attendance) + '</td></tr>',
-    '<tr><td style="padding:11px 13px;font-family:Arial,sans-serif;font-size:10px;font-weight:bold;letter-spacing:1px;color:#8b633d;">GUEST TYPE</td><td align="right" style="padding:11px 13px;color:#49382f;font-size:14px;">' + escapeHtml_(emailRole) + '</td></tr>',
-    '</table>',
-    matchBlock,
-    '<div style="margin:16px 0;padding:13px 15px;border-left:3px solid #c5a47d;background-color:#f8efe5;color:#71384b;font-size:13px;line-height:1.6;">This invitation is for the named guest only. <strong>Strictly no Plus 1.</strong></div>',
-    '<p style="margin:20px 0 7px;font-family:Arial,sans-serif;font-size:10px;font-weight:bold;letter-spacing:1.5px;color:#8b633d;">YOUR BLESSING</p>',
-    '<div style="padding:13px 15px;border:1px solid #ead8d1;background-color:#ffffff;color:#654d43;font-size:14px;line-height:1.65;white-space:pre-wrap;word-break:break-word;">' + escapeHtml_(guest.message) + '</div>',
-    '<p style="margin:21px 0 0;color:#654d43;font-size:15px;line-height:1.6;">With love,<br><strong style="color:#a64f67;">The Merlan Family</strong></p>',
-    '</td></tr>',
-    '<tr><td style="padding:13px 18px;text-align:center;border-top:1px solid #ead8d1;background-color:#fff4f0;color:#8b746b;font-family:Arial,sans-serif;font-size:11px;line-height:1.5;">A day of blessings, joy, and fairytale memories</td></tr>',
-    '</table></div></body></html>'
-  ].join("");
+  template.hasEntrancePass = attending && Boolean(guest.checkInCode);
+  template.attending = attending;
+  template.checkInCode = guest.checkInCode || "";
+  template.attendance = guest.attendance || "";
+  template.emailRole = emailRole || "";
+  template.matchedName = classification.matchedName || "";
+  template.message = guest.message || "";
+  return template.evaluate().getContent();
 }
-
 function markEmailStatus_(row, emailSent, hasCheckInCode) {
   const sheet = SpreadsheetApp.openById(SETTINGS.spreadsheetId).getSheetByName(SETTINGS.responseSheetName);
   if (row <= 1) return;
